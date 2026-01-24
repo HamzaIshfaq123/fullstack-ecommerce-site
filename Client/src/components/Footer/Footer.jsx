@@ -1,8 +1,54 @@
 import React from 'react'
+import { 
+  CreditCard, 
+  Paypal, 
+  CreditCard2BackFill, 
+  CreditCard2Front, 
+  Facebook,
+  Twitter,
+  Instagram, 
+  Pinterest
+} from 'react-bootstrap-icons';
+
 
 const Footer = () => {
   return (
     <div>
+		{/* <!-- NEWSLETTER --> */}
+		<div id="newsletter" className="section">
+			{/* <!-- container --> */}
+			<div className="container">
+				{/* <!-- row --> */}
+				<div className="row">
+					<div className="col-md-12">
+						<div className="newsletter">
+							<p>Sign Up for the <strong>NEWSLETTER</strong></p>
+							<form>
+								<input className="input" type="email" placeholder="Enter Your Email"/>
+								<button className="newsletter-btn"><i className="fa fa-envelope"></i> Subscribe</button>
+							</form>
+							<ul className="newsletter-follow">
+								<li className=''>
+									<a href="#" className='pl-4 pt-5 text-2xl'><Facebook/></a>
+								</li>
+								<li>
+									<a href="#" className='pl-4 pt-5 text-2xl'><Twitter/></a>
+								</li>
+								<li>
+									<a href="#" className='pl-4 pt-5 text-2xl'><Instagram/></a>
+								</li>
+								<li>
+									<a href="#" className='pl-4 pt-5 text-2xl'><Pinterest/></a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				{/* <!-- /row --> */}
+			</div>
+			{/* <!-- /container --> */}
+		</div>
+		{/* <!-- /NEWSLETTER --> */}
       {/* <!-- FOOTER --> */}
 		<footer id="footer">
 			{/* <!-- top footer --> */}
@@ -77,12 +123,12 @@ const Footer = () => {
 					<div className="row">
 						<div className="col-md-12 text-center">
 							<ul className="footer-payments">
-								<li><a href="#"><i className="fa fa-cc-visa"></i></a></li>
-								<li><a href="#"><i className="fa fa-credit-card"></i></a></li>
-								<li><a href="#"><i className="fa fa-cc-paypal"></i></a></li>
-								<li><a href="#"><i className="fa fa-cc-mastercard"></i></a></li>
-								<li><a href="#"><i className="fa fa-cc-discover"></i></a></li>
-								<li><a href="#"><i className="fa fa-cc-amex"></i></a></li>
+								{/* <li><a href="#"><i className="fa fa-cc-visa"></i></a></li> */}
+								<li><a href="#"><CreditCard size={28} /></a></li>
+								{/* <li><a href="#"><i className="fa fa-cc-paypal"></i></a></li> */}
+								<li><a href="#"><CreditCard2BackFill size={28} /></a></li>
+								<li><a href="#"><Paypal size={28} /></a></li>
+								<li><a href="#"><CreditCard2Front size={28} /></a></li>
 							</ul>
 							<span className="copyright">
 								 <a target="_blank" href="https://www.templateshub.net">Templates Hub</a>

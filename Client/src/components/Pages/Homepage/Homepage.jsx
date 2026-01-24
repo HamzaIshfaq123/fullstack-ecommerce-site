@@ -1,17 +1,17 @@
 import React from 'react'
 // images
-import product1 from '../../assets/images/product01.png'
-import product2 from '../../assets/images/product02.png'
-import product3 from '../../assets/images/product03.png'
-import product4 from '../../assets/images/product04.png'
-import product5 from '../../assets/images/product05.png'
-import product6 from '../../assets/images/product06.png'
-import product7 from '../../assets/images/product07.png'
-import product8 from '../../assets/images/product08.png'
-import product9 from '../../assets/images/product09.png'
-import shop1 from '../../assets/images/shop01.png'
-import shop2 from '../../assets/images/shop02.png'
-import shop3 from '../../assets/images/shop03.png'
+import product1 from '../../../assets/images/product01.png'
+import product2 from '../../../assets/images/product02.png'
+import product3 from '../../../assets/images/product03.png'
+import product4 from '../../../assets/images/product04.png'
+import product5 from '../../../assets/images/product05.png'
+import product6 from '../../../assets/images/product06.png'
+import product7 from '../../../assets/images/product07.png'
+import product8 from '../../../assets/images/product08.png'
+import product9 from '../../../assets/images/product09.png'
+import shop1 from '../../../assets/images/shop01.png'
+import shop2 from '../../../assets/images/shop02.png'
+import shop3 from '../../../assets/images/shop03.png'
 
 import {ArrowRightCircleFill} from "react-bootstrap-icons"
 
@@ -747,41 +747,6 @@ const Homepage = () => {
 		</div>
 		{/* <!-- /SECTION --> */}
 
-		{/* <!-- NEWSLETTER --> */}
-		<div id="newsletter" className="section">
-			{/* <!-- container --> */}
-			<div className="container">
-				{/* <!-- row --> */}
-				<div className="row">
-					<div className="col-md-12">
-						<div className="newsletter">
-							<p>Sign Up for the <strong>NEWSLETTER</strong></p>
-							<form>
-								<input className="input" type="email" placeholder="Enter Your Email"/>
-								<button className="newsletter-btn"><i className="fa fa-envelope"></i> Subscribe</button>
-							</form>
-							<ul className="newsletter-follow">
-								<li>
-									<a href="#"><i className="fa fa-facebook"></i></a>
-								</li>
-								<li>
-									<a href="#"><i className="fa fa-twitter"></i></a>
-								</li>
-								<li>
-									<a href="#"><i className="fa fa-instagram"></i></a>
-								</li>
-								<li>
-									<a href="#"><i className="fa fa-pinterest"></i></a>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-				{/* <!-- /row --> */}
-			</div>
-			{/* <!-- /container --> */}
-		</div>
-		{/* <!-- /NEWSLETTER --> */}
     </div>
   )
 }
