@@ -30,53 +30,7 @@ const Homepage = () => {
   return (
     <div>
       {/* NAVIGATION */}
-<nav id="navigation" className="bg-white  border-gray-100">
-  <div className="container  mx-auto px-4">
-    <div id="responsive-nav" className=''>
-      {/* 
-          flex-row: keeps items horizontal
-          space-x-8: adds consistent gap between links
-          uppercase: common styling for this template
-      */}
-      <ul className="text-xl flex flex-row justify-center items-center space-x-8 uppercase tracking-tight">
-        
-        {/* Active Link: Red text and red bottom border */}
-        <li className="relative group text-[#D10024] font-semibold">
-          <a href="#" className="after:content-[''] after:absolute after:left-0 after:bottom-\[-18px] after:w-full after:h-\[2px] after:bg-[#D10024]">
-            <p className=' pt-5'>Home</p> 
-          </a>
-        </li>
 
-        {/* Regular Links: Gray text that turns red on hover */}
-        <li className="text-[#2B2D33] hover:text-[#D10024] transition-colors duration-300">
-          <a href="#"><p className='pt-5'>Hot Deals</p></a>
-        </li>
-
-        <li className="text-[#2B2D33] hover:text-[#D10024] transition-colors duration-300">
-          <a href="#"><p className='pt-5'>Categories</p></a>
-        </li>
-
-        <li className="text-[#2B2D33] hover:text-[#D10024] transition-colors duration-300">
-          <a href="#"><p className='pt-5'>Laptops</p></a>
-        </li>
-
-        <li className="text-[#2B2D33] hover:text-[#D10024] transition-colors duration-300">
-          <a href="#"><p className='pt-5'>Smartphones</p>
-          </a>
-        </li>
-
-        <li className="text-[#2B2D33] hover:text-[#D10024] transition-colors duration-300">
-          <a href="#"><p className='pt-5'>Cameras</p></a>
-        </li>
-
-        <li className="text-[#2B2D33] hover:text-[#D10024] transition-colors duration-300">
-          <a href="#"><p className='pt-5'>Accessories</p></a>
-        </li>
-
-      </ul>
-    </div>
-  </div>
-</nav>
 
 		{/* <!-- SECTION --> */}
 		 <div className="py-12 bg-white">
@@ -204,11 +158,14 @@ const Homepage = () => {
             </div>
 
             {/* ADD TO CART BUTTON (Slide up effect) */}
-            <div className="absolute inset-x-0 bottom-\[-50px] opacity-0 group-hover:bottom-0 group-hover:opacity-100 transition-all duration-300 bg-[#1E1F29] p-2 z-10">
-              <button className="w-full text-white uppercase text-xs font-bold py-2 flex items-center justify-center gap-2 hover:text-[#D10024]">
-                <CartDash size={16} /> Add to Cart
-              </button>
-            </div>
+			<div className="absolute inset-x-0 bottom-/[-50px] opacity-0 
+				group-hover:bottom-0 group-hover:opacity-100 
+				group-hover:transition-all group-hover:duration-300 
+				bg-[#1E1F29] p-2 z-10 transition-none">
+			<button className="w-full text-white! uppercase text-xs font-bold py-2 flex 	items-center justify-center gap-2 hover:text-[#D10024]">
+				<CartDash size={16} /> Add to Cart
+			</button>
+			</div>
 
           </div>
           {/* END SINGLE PRODUCT */}
@@ -272,179 +229,108 @@ const Homepage = () => {
 				<div className="row">
 
 					{/* <!-- section title --> */}
-					<div className="col-md-12">
-						<div className="section-title">
-							<h3 className="title">Top selling</h3>
-							<div className="section-nav">
-								<ul className="section-tab-nav tab-nav">
-									<li className="active"><a data-toggle="tab" href="#tab2">Laptops</a></li>
-									<li><a data-toggle="tab" href="#tab2">Smartphones</a></li>
-									<li><a data-toggle="tab" href="#tab2">Cameras</a></li>
-									<li><a data-toggle="tab" href="#tab2">Accessories</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
+					<div className="w-full px-4">
+  <div className="flex flex-col md:flex-row md:items-center md:justify-between border-b-2 border-gray-200 pb-4 mb-8">
+    {/* Section Title */}
+    <h3 className="text-2xl font-bold uppercase text-[#1E1F29] mb-4 md:mb-0 tracking-tight">
+      Top selling
+    </h3>
+
+    {/* Section Navigation */}
+    <nav>
+      <ul className="flex flex-wrap items-center gap-4 md:gap-8">
+        <li className="relative group">
+          <a 
+            href="#tab2" 
+            className="text-sm font-semibold uppercase transition-colors text-[#D10024] after:absolute after:bottom-/[-18px] after:left-0 after:w-full after:h-/[2px] after:bg-[#D10024]"
+          >
+            Laptops
+          </a>
+        </li>
+        <li>
+          <a href="#tab2" className="text-sm font-semibold uppercase text-gray-500 hover:text-[#D10024] transition-colors">
+            Smartphones
+          </a>
+        </li>
+        <li>
+          <a href="#tab2" className="text-sm font-semibold uppercase text-gray-500 hover:text-[#D10024] transition-colors">
+            Cameras
+          </a>
+        </li>
+        <li>
+          <a href="#tab2" className="text-sm font-semibold uppercase text-gray-500 hover:text-[#D10024] transition-colors">
+            Accessories
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
 					{/* <!-- /section title --> */}
 
 					{/* <!-- Products tab & slick --> */}
-					<div className="col-md-12">
-						<div className="row">
-							<div className="products-tabs">
-								{/* <!-- tab --> */}
-								<div id="tab2" className="tab-pane fade in active">
-									<div >
-										{/* <!-- product --> */}
-										<div className="product">
-											<div className="product-img">
-												<img src={product6} alt=""/>
-												<div className="product-label">
-													<span className="sale">-30%</span>
-													<span className="new">NEW</span>
-												</div>
-											</div>
-											<div className="product-body">
-												<p className="product-category">Category</p>
-												<h3 className="product-name"><a href="#">product name goes here</a></h3>
-												<h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-												<div className="product-rating">
-													<i className="fa fa-star"></i>
-													<i className="fa fa-star"></i>
-													<i className="fa fa-star"></i>
-													<i className="fa fa-star"></i>
-													<i className="fa fa-star"></i>
-												</div>
-												<div className="product-btns">
-													<button className="add-to-wishlist"><i className="fa fa-heart-o"></i><span className="tooltipp">add to wishlist</span></button>
-													<button className="add-to-compare"><i className="fa fa-exchange"></i><span className="tooltipp">add to compare</span></button>
-													<button className="quick-view"><i className="fa fa-eye"></i><span className="tooltipp">quick view</span></button>
-												</div>
-											</div>
-											<div className="add-to-cart">
-												<button className="add-to-cart-btn"><i className="fa fa-shopping-cart"></i> add to cart</button>
-											</div>
-										</div>
-										{/* <!-- /product --> */}
+					<div className="container mx-auto px-4 py-8">
+      {/* Grid wrapper: 1 col on mobile, 2 on tablet, 4 on desktop */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        {/* START SINGLE PRODUCT ITEM */}
+        <div className="group relative border border-gray-200 p-4 transition-all hover:border-[#D10024] bg-white">
+          
+          {/* Product Image & Labels */}
+          <div className="relative overflow-hidden mb-4">
+            <img 
+              src={product6} // Replace with your dynamic image variable
+              alt="Product Name" 
+              className="w-full h-auto object-cover" 
+            />
+            <div className="absolute top-2 right-2 flex flex-col gap-1">
+              <span className="bg-[#D10024] text-white text-[10px] font-bold px-2 py-1 border border-[#D10024]">
+                -30%
+              </span>
+              <span className="bg-white text-[#D10024] text-[10px] font-bold px-2 py-1 border border-[#D10024]">
+                NEW
+              </span>
+            </div>
+          </div>
 
-										{/* <!-- product --> */}
-										<div className="product">
-											<div className="product-img">
-												<img src={product7} alt=""/>
-												<div className="product-label">
-													<span className="new">NEW</span>
-												</div>
-											</div>
-											<div className="product-body">
-												<p className="product-category">Category</p>
-												<h3 className="product-name"><a href="#">product name goes here</a></h3>
-												<h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-												<div className="product-rating">
-													<i className="fa fa-star"></i>
-													<i className="fa fa-star"></i>
-													<i className="fa fa-star"></i>
-													<i className="fa fa-star"></i>
-													<i className="fa fa-star-o"></i>
-												</div>
-												<div className="product-btns">
-													<button className="add-to-wishlist"><i className="fa fa-heart-o"></i><span className="tooltipp">add to wishlist</span></button>
-													<button className="add-to-compare"><i className="fa fa-exchange"></i><span className="tooltipp">add to compare</span></button>
-													<button className="quick-view"><i className="fa fa-eye"></i><span className="tooltipp">quick view</span></button>
-												</div>
-											</div>
-											<div className="add-to-cart">
-												<button className="add-to-cart-btn"><i className="fa fa-shopping-cart"></i> add to cart</button>
-											</div>
-										</div>
-										{/* <!-- /product --> */}
+          {/* Product Body */}
+          <div className="text-center">
+            <p className="text-xs text-gray-400 uppercase mb-1">Category</p>
+            <h3 className="text-sm font-bold uppercase mb-2 hover:text-[#D10024] cursor-pointer">
+              <a href="#">Product Name Goes Here</a>
+            </h3>
+            <h4 className="text-[#D10024] font-bold text-lg mb-2">
+              $980.00 <del className="text-gray-400 font-normal text-sm ml-1">$990.00</del>
+            </h4>
 
-										{/* <!-- product --> */}
-										<div className="product">
-											<div className="product-img">
-												<img src={product8} alt=""/>
-												<div className="product-label">
-													<span className="sale">-30%</span>
-												</div>
-											</div>
-											<div className="product-body">
-												<p className="product-category">Category</p>
-												<h3 className="product-name"><a href="#">product name goes here</a></h3>
-												<h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-												<div className="product-rating">
-												</div>
-												<div className="product-btns">
-													<button className="add-to-wishlist"><i className="fa fa-heart-o"></i><span className="tooltipp">add to wishlist</span></button>
-													<button className="add-to-compare"><i className="fa fa-exchange"></i><span className="tooltipp">add to compare</span></button>
-													<button className="quick-view"><i className="fa fa-eye"></i><span className="tooltipp">quick view</span></button>
-												</div>
-											</div>
-											<div className="add-to-cart">
-												<button className="add-to-cart-btn"><i className="fa fa-shopping-cart"></i> add to cart</button>
-											</div>
-										</div>
-										{/* <!-- /product --> */}
+            {/* Rating */}
+            <div className="flex justify-center gap-1 mb-4 text-[#D10024] text-xs">
+              {/* <FaStar />
+              <FaStar />
+              <FaStar />
+              <FaStar /> */}
+              {/* <FaRegStar className="text-gray-300" /> */}
+            </div>
 
-										{/* <!-- product --> */}
-										<div className="product">
-											<div className="product-img">
-												<img src={product9} alt=""/>
-											</div>
-											<div className="product-body">
-												<p className="product-category">Category</p>
-												<h3 className="product-name"><a href="#">product name goes here</a></h3>
-												<h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-												<div className="product-rating">
-													<i className="fa fa-star"></i>
-													<i className="fa fa-star"></i>
-													<i className="fa fa-star"></i>
-													<i className="fa fa-star"></i>
-													<i className="fa fa-star"></i>
-												</div>
-												<div className="product-btns">
-													<button className="add-to-wishlist"><i className="fa fa-heart-o"></i><span className="tooltipp">add to wishlist</span></button>
-													<button className="add-to-compare"><i className="fa fa-exchange"></i><span className="tooltipp">add to compare</span></button>
-													<button className="quick-view"><i className="fa fa-eye"></i><span className="tooltipp">quick view</span></button>
-												</div>
-											</div>
-											<div className="add-to-cart">
-												<button className="add-to-cart-btn"><i className="fa fa-shopping-cart"></i> add to cart</button>
-											</div>
-										</div>
-										{/* <!-- /product --> */}
+            {/* Quick Action Buttons */}
+            <div className="flex justify-center gap-4 text-gray-700 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
+              <button className="hover:text-[#D10024] transition-colors"></button>
+              <button className="hover:text-[#D10024] transition-colors"></button>
+              <button className="hover:text-[#D10024] transition-colors"></button>
+            </div>
+          </div>
 
-										{/* <!-- product --> */}
-										<div className="product">
-											<div className="product-img">
-												<img src="./img/product01.png" alt=""/>
-											</div>
-											<div className="product-body">
-												<p className="product-category">Category</p>
-												<h3 className="product-name"><a href="#">product name goes here</a></h3>
-												<h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-												<div className="product-rating">
-													<i className="fa fa-star"></i>
-													<i className="fa fa-star"></i>
-													<i className="fa fa-star"></i>
-													<i className="fa fa-star"></i>
-													<i className="fa fa-star"></i>
-												</div>
-												<div className="product-btns">
-													<button className="add-to-wishlist"><i className="fa fa-heart-o"></i><span className="tooltipp">add to wishlist</span></button>
-													<button className="add-to-compare"><i className="fa fa-exchange"></i><span className="tooltipp">add to compare</span></button>
-													<button className="quick-view"><i className="fa fa-eye"></i><span className="tooltipp">quick view</span></button>
-												</div>
-											</div>
-											<div className="add-to-cart">
-												<button className="add-to-cart-btn"><i className="fa fa-shopping-cart"></i> add to cart</button>
-											</div>
-										</div>
-										{/* <!-- /product --> */}
-									</div>
-									<div ></div>
-								</div>
-								{/* <!-- /tab --> */}
-							</div>
-						</div>
-					</div>
+          {/* Add to Cart - Slide up effect with exit fix */}
+          <div className="absolute inset-x-0 bottom-/[-50px] opacity-0 group-hover:bottom-0 group-hover:opacity-100 group-hover:transition-all group-hover:duration-300 bg-[#1E1F29] p-2 z-10 transition-none">
+            <button className="w-full text-white! uppercase text-xs font-bold py-2 flex items-center justify-center gap-2 hover:text-[#D10024] transition-colors">
+              <CartDash size={14} /> add to cart
+            </button>
+          </div>
+        </div>
+        {/* END SINGLE PRODUCT ITEM */}
+
+      </div>
+    </div>
 					{/* <!-- /Products tab & slick --> */}
 				</div>
 				{/* <!-- /row --> */}
@@ -454,297 +340,91 @@ const Homepage = () => {
 		{/* <!-- /SECTION --> */}
 
 		{/* <!-- SECTION --> */}
-		<div className="section">
-			{/* <!-- container --> */}
-			<div className="container">
-				{/* <!-- row --> */}
-				<div className="row">
-					<div className="col-md-4 col-xs-6">
-						<div className="section-title">
-							<h4 className="title">Top selling</h4>
-							<div className="section-nav">
-								<div  ></div>
-							</div>
-						</div>
+		 <section className="py-12 bg-white">
+      <div className="container mx-auto px-4">
+        {/* Responsive Grid: 1 col on mobile, 2 on small tablets, 3 on desktop */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          
+          {/* Column 1: Top Selling */}
+          <div>
+            <div className="border-b-2 border-gray-100 pb-3 mb-6">
+              <h4 className="text-lg font-bold uppercase text-[#1E1F29]">Top selling</h4>
+            </div>
+            
+            <div className="flex flex-col gap-6">
+              {/* Product Widget Item */}
+              <div className="flex items-center gap-4 group cursor-pointer">
+                <div className="w-20 h-20 shrink-0 overflow-hidden">
+                  <img src={product7} alt="product" className="w-full h-full object-cover transition-transform group-hover:scale-110" />
+                </div>
+                <div className="grow">
+                  <p className="text-[10px] text-gray-400 uppercase">Category</p>
+                  <h3 className="text-sm font-bold uppercase mb-1 hover:text-[#D10024] transition-colors">
+                    <a href="#">product name goes here</a>
+                  </h3>
+                  <h4 className="text-sm font-bold text-[#1E1F29]">
+                    $980.00 <del className="text-xs font-normal text-gray-400 ml-1">$990.00</del>
+                  </h4>
+                </div>
+              </div>
+              {/* End Product Widget Item */}
+            </div>
+          </div>
 
-						<div  >
-							<div>
-								{/* <!-- product widget --> */}
-								<div className="product-widget">
-									<div className="product-img">
-										<img src="./img/product07.png" alt=""/>
-									</div>
-									<div className="product-body">
-										<p className="product-category">Category</p>
-										<h3 className="product-name"><a href="#">product name goes here</a></h3>
-										<h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								{/* <!-- /product widget --> */}
+          {/* Column 2: Top Selling */}
+          <div>
+            <div className="border-b-2 border-gray-100 pb-3 mb-6">
+              <h4 className="text-lg font-bold uppercase text-[#1E1F29]">Top selling</h4>
+            </div>
+            
+            <div className="flex flex-col gap-6">
+              <div className="flex items-center gap-4 group cursor-pointer">
+                <div className="w-20 h-20 shrink-0">
+                  <img src={product4} alt="product" className="w-full h-full object-cover group-hover:scale-110 transition-transform" />
+                </div>
+                <div>
+                  <p className="text-[10px] text-gray-400 uppercase">Category</p>
+                  <h3 className="text-sm font-bold uppercase mb-1 hover:text-[#D10024]">
+                    <a href="#">product name goes here</a>
+                  </h3>
+                  <h4 className="text-sm font-bold text-[#1E1F29]">
+                    $980.00 <del className="text-xs font-normal text-gray-400 ml-1">$990.00</del>
+                  </h4>
+                </div>
+              </div>
+            </div>
+          </div>
 
-								{/* <!-- product widget --> */}
-								<div className="product-widget">
-									<div className="product-img">
-										<img src="./img/product08.png" alt=""/>
-									</div>
-									<div className="product-body">
-										<p className="product-category">Category</p>
-										<h3 className="product-name"><a href="#">product name goes here</a></h3>
-										<h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								{/* <!-- /product widget --> */}
+          {/* Column 3: Top Selling */}
+          <div>
+            <div className="border-b-2 border-gray-100 pb-3 mb-6">
+              <h4 className="text-lg font-bold uppercase text-[#1E1F29]">Top selling</h4>
+            </div>
+            
+            <div className="flex flex-col gap-6">
+              {/* Note: You can map your dynamic data here */}
+              {[1, 2, 3].map((item) => (
+                <div key={item} className="flex items-center gap-4 group cursor-pointer">
+                  <div className="w-20 h-20 shrink-0">
+                    <img src={product3} alt="product" className="w-full h-full object-cover group-hover:scale-110 transition-transform" />
+                  </div>
+                  <div>
+                    <p className="text-[10px] text-gray-400 uppercase">Category</p>
+                    <h3 className="text-sm font-bold uppercase mb-1 hover:text-[#D10024]">
+                      <a href="#">product name goes here</a>
+                    </h3>
+                    <h4 className="text-sm font-bold text-[#1E1F29]">
+                      $980.00 <del className="text-xs font-normal text-gray-400 ml-1">$990.00</del>
+                    </h4>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
 
-								{/* <!-- product widget --> */}
-								<div className="product-widget">
-									<div className="product-img">
-										<img src="./img/product09.png" alt=""/>
-									</div>
-									<div className="product-body">
-										<p className="product-category">Category</p>
-										<h3 className="product-name"><a href="#">product name goes here</a></h3>
-										<h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								{/* <!-- product widget --> */}
-							</div>
-
-							<div>
-								{/* <!-- product widget --> */}
-								<div className="product-widget">
-									<div className="product-img">
-										<img src="./img/product01.png" alt=""/>
-									</div>
-									<div className="product-body">
-										<p className="product-category">Category</p>
-										<h3 className="product-name"><a href="#">product name goes here</a></h3>
-										<h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								{/* <!-- /product widget --> */}
-
-								{/* <!-- product widget --> */}
-								<div className="product-widget">
-									<div className="product-img">
-										<img src="./img/product02.png" alt=""/>
-									</div>
-									<div className="product-body">
-										<p className="product-category">Category</p>
-										<h3 className="product-name"><a href="#">product name goes here</a></h3>
-										<h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								{/* <!-- /product widget --> */}
-
-								{/* <!-- product widget --> */}
-								<div className="product-widget">
-									<div className="product-img">
-										<img src="./img/product03.png" alt=""/>
-									</div>
-									<div className="product-body">
-										<p className="product-category">Category</p>
-										<h3 className="product-name"><a href="#">product name goes here</a></h3>
-										<h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								{/* <!-- product widget --> */}
-							</div>
-						</div>
-					</div>
-
-					<div className="col-md-4 col-xs-6">
-						<div className="section-title">
-							<h4 className="title">Top selling</h4>
-							<div className="section-nav">
-								<div></div>
-							</div>
-						</div>
-
-						<div >
-							<div>
-								{/* <!-- product widget --> */}
-								<div className="product-widget">
-									<div className="product-img">
-										<img src="./img/product04.png" alt=""/>
-									</div>
-									<div className="product-body">
-										<p className="product-category">Category</p>
-										<h3 className="product-name"><a href="#">product name goes here</a></h3>
-										<h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								{/* <!-- /product widget --> */}
-
-								{/* <!-- product widget --> */}
-								<div className="product-widget">
-									<div className="product-img">
-										<img src="./img/product05.png" alt=""/>
-									</div>
-									<div className="product-body">
-										<p className="product-category">Category</p>
-										<h3 className="product-name"><a href="#">product name goes here</a></h3>
-										<h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								{/* <!-- /product widget --> */}
-
-								{/* <!-- product widget --> */}
-								<div className="product-widget">
-									<div className="product-img">
-										<img src="./img/product06.png" alt=""/>
-									</div>
-									<div className="product-body">
-										<p className="product-category">Category</p>
-										<h3 className="product-name"><a href="#">product name goes here</a></h3>
-										<h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								{/* <!-- product widget --> */}
-							</div>
-
-							<div>
-								{/* <!-- product widget --> */}
-								<div className="product-widget">
-									<div className="product-img">
-										<img src="./img/product07.png" alt=""/>
-									</div>
-									<div className="product-body">
-										<p className="product-category">Category</p>
-										<h3 className="product-name"><a href="#">product name goes here</a></h3>
-										<h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								{/* <!-- /product widget --> */}
-
-								{/* <!-- product widget --> */}
-								<div className="product-widget">
-									<div className="product-img">
-										<img src="./img/product08.png" alt=""/>
-									</div>
-									<div className="product-body">
-										<p className="product-category">Category</p>
-										<h3 className="product-name"><a href="#">product name goes here</a></h3>
-										<h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								{/* <!-- /product widget --> */}
-
-								{/* <!-- product widget --> */}
-								<div className="product-widget">
-									<div className="product-img">
-										<img src="./img/product09.png" alt=""/>
-									</div>
-									<div className="product-body">
-										<p className="product-category">Category</p>
-										<h3 className="product-name"><a href="#">product name goes here</a></h3>
-										<h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								{/* <!-- product widget --> */}
-							</div>
-						</div>
-					</div>
-
-					<div className="clearfix visible-sm visible-xs"></div>
-
-					<div className="col-md-4 col-xs-6">
-						<div className="section-title">
-							<h4 className="title">Top selling</h4>
-							<div className="section-nav">
-								<div></div>
-							</div>
-						</div>
-
-						<div>
-							<div>
-								{/* <!-- product widget --> */}
-								<div className="product-widget">
-									<div className="product-img">
-										<img src="./img/product01.png" alt=""/>
-									</div>
-									<div className="product-body">
-										<p className="product-category">Category</p>
-										<h3 className="product-name"><a href="#">product name goes here</a></h3>
-										<h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								{/* <!-- /product widget --> */}
-
-								{/* <!-- product widget --> */}
-								<div className="product-widget">
-									<div className="product-img">
-										<img src="./img/product02.png" alt=""/>
-									</div>
-									<div className="product-body">
-										<p className="product-category">Category</p>
-										<h3 className="product-name"><a href="#">product name goes here</a></h3>
-										<h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								{/* <!-- /product widget --> */}
-
-								{/* <!-- product widget --> */}
-								<div className="product-widget">
-									<div className="product-img">
-										<img src="./img/product03.png" alt=""/>
-									</div>
-									<div className="product-body">
-										<p className="product-category">Category</p>
-										<h3 className="product-name"><a href="#">product name goes here</a></h3>
-										<h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								{/* <!-- product widget --> */}
-							</div>
-
-							<div>
-								{/* <!-- product widget --> */}
-								<div className="product-widget">
-									<div className="product-img">
-										<img src="./img/product04.png" alt=""/>
-									</div>
-									<div className="product-body">
-										<p className="product-category">Category</p>
-										<h3 className="product-name"><a href="#">product name goes here</a></h3>
-										<h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								{/* <!-- /product widget --> */}
-
-								{/* <!-- product widget --> */}
-								<div className="product-widget">
-									<div className="product-img">
-										<img src="./img/product05.png" alt=""/>
-									</div>
-									<div className="product-body">
-										<p className="product-category">Category</p>
-										<h3 className="product-name"><a href="#">product name goes here</a></h3>
-										<h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								{/* <!-- /product widget --> */}
-
-								{/* <!-- product widget --> */}
-								<div className="product-widget">
-									<div className="product-img">
-										<img src="./img/product06.png" alt=""/>
-									</div>
-									<div className="product-body">
-										<p className="product-category">Category</p>
-										<h3 className="product-name"><a href="#">product name goes here</a></h3>
-										<h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								{/* <!-- product widget --> */}
-							</div>
-						</div>
-					</div>
-
-				</div>
-				{/* <!-- /row --> */}
-			</div>
-			{/* <!-- /container --> */}
-		</div>
+        </div>
+      </div>
+    </section>
 		{/* <!-- /SECTION --> */}
 
     </div>

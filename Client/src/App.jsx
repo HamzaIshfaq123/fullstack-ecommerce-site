@@ -2,12 +2,12 @@ import { useState } from 'react'
 import Navbar from './components/Header/Navbar'
 
 // style files
-import './components/styles/bootstrap.min.css';
-import './components/styles/slick.css';
-import './components/styles/slick-theme.css';
-import './components/styles/nouislider.min.css';
-import './components/styles/font-awesome.min.css';
-import './components/styles/style.css'; 
+// import './components/styles/bootstrap.min.css';
+// import './components/styles/slick.css';
+// import './components/styles/slick-theme.css';
+// import './components/styles/nouislider.min.css';
+// import './components/styles/font-awesome.min.css';
+// import './components/styles/style.css'; 
 
 import "tailwindcss";
 
@@ -17,6 +17,7 @@ import "tailwindcss";
 
 import Footer from './components/Footer/footer';
 import Homepage from './components/Pages/Homepage/Homepage';
+import Store from './components/Store/Store';
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
     <>
       <Navbar/>
       <Homepage/>
+      {/* <Store/> */}
       <Footer/>
     </>
   )
