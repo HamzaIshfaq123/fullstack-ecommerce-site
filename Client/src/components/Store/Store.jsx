@@ -1,4 +1,5 @@
 import React from 'react'
+import product1 from '../../assets/images/product01.png'
 
 const Store = () => {
   return (
@@ -28,12 +29,169 @@ const Store = () => {
 
             {/* Active Item */}
             <li className="text-[#D10024] font-bold">
-              Headphones (227,490 Results)
+              Headphones (66 Results)
             </li>
           </ul>
         </div>
       </div>
     </div>
+    <div className="flex py-4">
+    {/* <!-- Left Sidebar Area (Placeholder structure) --> */}
+    <aside className="w-100 p-6 bg-white shadow-lg h-screen text-center align-middle justify-center">
+        <h2 className="text-lg font-semibold mb-4 text-gray-800">CATEGORIES</h2>
+        <ul className="space-y-3 mb-6">
+            <li><label className="flex items-center"><input type="checkbox" className="form-checkbox h-4 w-4 text-red-600 rounded mr-2" /> Laptops (120)</label></li>
+            <li><label className="flex items-center"><input type="checkbox" className="form-checkbox h-4 w-4 text-red-600 rounded mr-2" /> Smartphones (0)</label></li>
+            <li><label className="flex items-center"><input type="checkbox" className="form-checkbox h-4 w-4 text-red-600 rounded mr-2" /> Cameras (1450)</label></li>
+            <li><label className="flex items-center"><input type="checkbox" className="form-checkbox h-4 w-4 text-red-600 rounded mr-2" /> Accessories (57)</label></li>
+            <li><label className="flex items-center"><input type="checkbox" className="form-checkbox h-4 w-4 text-red-600 rounded mr-2" /> Laptops (100)</label></li>
+            <li><label className="flex items-center"><input type="checkbox" className="form-checkbox h-4 w-4 text-red-600 rounded mr-2" /> Smartphones (740)</label></li>
+        </ul>
+
+        <h2 className="text-lg font-semibold mb-4 text-gray-800">PRICE</h2>
+        {/* <!-- Price range input area --> */}
+        <div className="flex items-center space-x-2 mb-6">
+            <input type="number" value="1.00" className="w-1/2 p-2 border border-gray-300 rounded text-sm" />
+            <span>-</span>
+            <input type="number" value="999.00" className="w-1/2 p-2 border border-gray-300 rounded text-sm" />
+        </div>
+        
+        <h2 className="text-lg font-semibold mb-4 text-gray-800">BRAND</h2>
+        <ul className="space-y-3">
+            <li><label className="flex items-center"><input type="checkbox" className="form-checkbox h-4 w-4 text-red-600 rounded mr-2" /> SAMSUNG (578)</label></li>
+            <li><label className="flex items-center"><input type="checkbox" className="form-checkbox h-4 w-4 text-red-600 rounded mr-2" /> LG (126)</label></li>
+        </ul>
+    </aside>
+
+    {/* <!-- Main Content Area --> */}
+    <main className="flex-1 p-6 bg-gray-50">
+        {/* <!-- Top controls/toolbar --> */}
+        <div className="flex justify-between items-center mb-6">
+            <div className="flex items-center space-x-4">
+                <label for="sort" className="text-sm font-medium text-gray-700">SORT BY:</label>
+                <select id="sort" className="p-2 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 text-sm">
+                    <option>Popular</option>
+                    <option>Newest</option>
+                    <option>Price: Low to High</option>
+                </select>
+                <label for="show" className="text-sm font-medium text-gray-700">SHOW:</label>
+                <select id="show" className="p-2 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 text-sm">
+                    <option>20</option>
+                    <option>40</option>
+                    <option>80</option>
+                </select>
+            </div>
+            <div className="flex space-x-2">
+                <button className="p-2 border border-gray-300 rounded text-gray-600 hover:bg-red-500 hover:text-white transition duration-150">
+                    {/* <!-- Icon placeholder: List view --> */}
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 11a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
+                </button>
+                <button className="p-2 border border-gray-300 bg-red-500 text-white rounded">
+                    {/* <!-- Icon placeholder: Grid view (active) --> */}
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2A2 2 0 009 7V5a2 2 0 00-2-2H5zm0 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zm11-5a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V9zM13 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2h-2z"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        {/* <!-- Product Grid --> */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            
+            {/* <!-- Product Card 1 (Laptop) --> */}
+            <div className="group bg-white p-4 rounded shadow-lg transition duration-300 hover:shadow-xl relative flex flex-col items-center">
+                <div className="absolute top-0 right-0 m-4 flex space-x-1">
+                    <span className="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">-30%</span>
+                    <span className="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">NEW</span>
+                </div>
+                <img src={product1} alt="Product 1" className="mt-8 mb-4 object-contain h-40" />
+                <p className="text-xs text-gray-500 uppercase">Category</p>
+                <p className="text-sm font-semibold text-gray-800 mb-2">PRODUCT NAME GOES HERE</p>
+                <div className="flex items-baseline mb-3">
+                    <span className="text-lg font-bold text-red-600">$980.00</span>
+                    <span className="text-sm text-gray-400 line-through ml-2">$9990.00</span>
+                </div>
+                
+                {/* <!-- Action area: Stars/Icons (default) vs Add to Cart (hover) --> */}
+                <div className="relative w-full text-center h-12 flex items-center justify-center">
+                    {/* <!-- Default State (visible) --> */}
+                    <div className="absolute transition duration-300 ease-in-out group-hover:opacity-0 group-hover:invisible">
+                        {/* <!-- Stars placeholder --> */}
+                        <div className="text-yellow-400 mb-1 text-xl">★★★★★</div> 
+                        <div className="flex space-x-3 text-gray-400 justify-center">
+                            <span>♡</span><span>=</span><span>◎</span>
+                        </div>
+                    </div>
+                    
+                    {/* <!-- Hover State (hidden) --> */}
+                    <div className="absolute top-0 left-0 w-full transition duration-300 ease-in-out opacity-0 invisible group-hover:opacity-100 group-hover:visible">
+                        <button className="bg-red-600 text-white px-4 py-2 w-full hover:bg-red-700 transition duration-300 rounded text-sm font-semibold">ADD TO CART</button>
+                    </div>
+                </div>
+            </div>
+
+            {/* <!-- Product Card 2 (Headphones) --> */}
+            <div className="group bg-white p-4 rounded shadow-lg transition duration-300 hover:shadow-xl relative flex flex-col items-center">
+                <div className="absolute top-0 right-0 m-4">
+                    <span className="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">NEW</span>
+                </div>
+                <img src="{product1}" alt="Product 2" className="mt-8 mb-4 object-contain h-40" />
+                <p className="text-xs text-gray-500 uppercase">Category</p>
+                <p className="text-sm font-semibold text-gray-800 mb-2">PRODUCT NAME GOES HERE</p>
+                <div className="flex items-baseline mb-3">
+                    <span className="text-lg font-bold text-red-600">$980.00</span>
+                    <span className="text-sm text-gray-400 line-through ml-2">$9990.00</span>
+                </div>
+                
+                {/* <!-- Action area: Stars/Icons (default) vs Add to Cart (hover) --> */}
+                <div className="relative w-full text-center h-12 flex items-center justify-center">
+                    {/* <!-- Default State (visible) --> */}
+                    <div className="absolute transition duration-300 ease-in-out group-hover:opacity-0 group-hover:invisible">
+                        {/* <!-- Stars placeholder --> */}
+                        <div className="text-yellow-400 mb-1 text-xl">★★★★☆</div> 
+                        <div className="flex space-x-3 text-gray-400 justify-center">
+                            <span>♡</span><span>=</span><span>◎</span>
+                        </div>
+                    </div>
+                    
+                    {/* <!-- Hover State (hidden) --> */}
+                    <div className="absolute top-0 left-0 w-full transition duration-300 ease-in-out opacity-0 invisible group-hover:opacity-100 group-hover:visible">
+                        <button className="bg-red-600 text-white px-4 py-2 w-full hover:bg-red-700 transition duration-300 rounded text-sm font-semibold">ADD TO CART</button>
+                    </div>
+                </div>
+            </div>
+
+            {/* <!-- Product Card 3 (Laptop 2) --> */}
+            <div className="group bg-white p-4 rounded shadow-lg transition duration-300 hover:shadow-xl relative flex flex-col items-center">
+                <img src="{product1}" alt="Product 3" className="mt-8 mb-4 object-contain h-40" />
+                <p className="text-xs text-gray-500 uppercase">Category</p>
+                <p className="text-sm font-semibold text-gray-800 mb-2">PRODUCT NAME GOES HERE</p>
+                <div className="flex items-baseline mb-3">
+                    <span className="text-lg font-bold text-red-600">$980.00</span>
+                    <span className="text-sm text-gray-400 line-through ml-2">$9990.00</span>
+                </div>
+                
+                {/* <!-- Action area: Stars/Icons (default) vs Add to Cart (hover) --> */}
+                <div className="relative w-full text-center h-12 flex items-center justify-center">
+                    {/* <!-- Default State (visible) --> */}
+                    <div className="absolute transition duration-300 ease-in-out group-hover:opacity-0 group-hover:invisible">
+                        {/* <!-- Stars placeholder --> */}
+                        <div className="text-yellow-400 mb-1 text-xl">★★★★★</div> 
+                        <div className="flex space-x-3 text-gray-400 justify-center">
+                            <span>♡</span><span>=</span><span>◎</span>
+                        </div>
+                    </div>
+                    
+                    {/* <!-- Hover State (hidden) --> */}
+                    <div className="absolute top-0 left-0 w-full transition duration-300 ease-in-out opacity-0 invisible group-hover:opacity-100 group-hover:visible">
+                        <button className="bg-red-600 text-white px-4 py-2 w-full hover:bg-red-700 transition duration-300 rounded text-sm font-semibold">ADD TO CART</button>
+                    </div>
+                </div>
+            </div>
+            
+            {/* <!-- You can add more cards here --> */}
+
+        </div>
+    </main>
+</div>
     </div>
   )
 }
