@@ -1,7 +1,9 @@
 import React from 'react'
-import product1 from '../../assets/images/product01.png'
+import { useState } from 'react'
+import product1 from '../../../assets/images/product01.png'
 
 const Store = () => {
+    // const [isSideBarOpen, setIsSideBarOpen] = useState(false)
   return (
     <div>
       <div id="breadcrumb" className="bg-[#FBFBFC] border-b border-gray-200 py-6">
@@ -35,9 +37,9 @@ const Store = () => {
         </div>
       </div>
     </div>
-    <div className="flex py-4">
+    <div className="flex flex-col lg:flex-row">
     {/* <!-- Left Sidebar Area (Placeholder structure) --> */}
-    <aside className="w-100 p-6 bg-white shadow-lg h-screen text-center align-middle justify-center">
+    <aside className="hidden lg:block w-full lg:w-64 p-6 bg-white shadow-lg h-auto lg:h-screen text-center align-middle justify-center">
         <h2 className="text-lg font-semibold mb-4 text-gray-800">CATEGORIES</h2>
         <ul className="space-y-3 mb-6">
             <li><label className="flex items-center"><input type="checkbox" className="form-checkbox h-4 w-4 text-red-600 rounded mr-2" /> Laptops (120)</label></li>
@@ -50,7 +52,7 @@ const Store = () => {
 
         <h2 className="text-lg font-semibold mb-4 text-gray-800">PRICE</h2>
         {/* <!-- Price range input area --> */}
-        <div className="flex items-center space-x-2 mb-6">
+        <div className="flex items-center  mb-6">
             <input type="number" value="1.00" className="w-1/2 p-2 border border-gray-300 rounded text-sm" />
             <span>-</span>
             <input type="number" value="999.00" className="w-1/2 p-2 border border-gray-300 rounded text-sm" />
@@ -66,8 +68,8 @@ const Store = () => {
     {/* <!-- Main Content Area --> */}
     <main className="flex-1 p-6 bg-gray-50">
         {/* <!-- Top controls/toolbar --> */}
-        <div className="flex justify-between items-center mb-6">
-            <div className="flex items-center space-x-4">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+            <div className="flex items-center space-x-2 w-full sm:w-auto">
                 <label for="sort" className="text-sm font-medium text-gray-700">SORT BY:</label>
                 <select id="sort" className="p-2 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 text-sm">
                     <option>Popular</option>
@@ -81,7 +83,7 @@ const Store = () => {
                     <option>80</option>
                 </select>
             </div>
-            <div className="flex space-x-2">
+            <div className="flex">
                 <button className="p-2 border border-gray-300 rounded text-gray-600 hover:bg-red-500 hover:text-white transition duration-150">
                     {/* <!-- Icon placeholder: List view --> */}
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 11a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
@@ -98,7 +100,7 @@ const Store = () => {
             
             {/* <!-- Product Card 1 (Laptop) --> */}
             <div className="group bg-white p-4 rounded shadow-lg transition duration-300 hover:shadow-xl relative flex flex-col items-center">
-                <div className="absolute top-0 right-0 m-4 flex space-x-1">
+                <div className="absolute top-0 right-0 m-4 flex">
                     <span className="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">-30%</span>
                     <span className="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">NEW</span>
                 </div>
@@ -116,7 +118,7 @@ const Store = () => {
                     <div className="absolute transition duration-300 ease-in-out group-hover:opacity-0 group-hover:invisible">
                         {/* <!-- Stars placeholder --> */}
                         <div className="text-yellow-400 mb-1 text-xl">★★★★★</div> 
-                        <div className="flex space-x-3 text-gray-400 justify-center">
+                        <div className="flex text-gray-400 justify-center">
                             <span>♡</span><span>=</span><span>◎</span>
                         </div>
                     </div>
@@ -147,7 +149,7 @@ const Store = () => {
                     <div className="absolute transition duration-300 ease-in-out group-hover:opacity-0 group-hover:invisible">
                         {/* <!-- Stars placeholder --> */}
                         <div className="text-yellow-400 mb-1 text-xl">★★★★☆</div> 
-                        <div className="flex space-x-3 text-gray-400 justify-center">
+                        <div className="flex  text-gray-400 justify-center">
                             <span>♡</span><span>=</span><span>◎</span>
                         </div>
                     </div>
@@ -175,7 +177,7 @@ const Store = () => {
                     <div className="absolute transition duration-300 ease-in-out group-hover:opacity-0 group-hover:invisible">
                         {/* <!-- Stars placeholder --> */}
                         <div className="text-yellow-400 mb-1 text-xl">★★★★★</div> 
-                        <div className="flex space-x-3 text-gray-400 justify-center">
+                        <div className="flex  text-gray-400 justify-center">
                             <span>♡</span><span>=</span><span>◎</span>
                         </div>
                     </div>

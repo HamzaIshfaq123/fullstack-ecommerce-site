@@ -17,7 +17,7 @@ import "tailwindcss";
 
 import Footer from './components/Footer/footer';
 import Homepage from './components/Pages/Homepage/Homepage';
-import Store from './components/Store/Store';
+import Store from './components/Pages/Store/Store';
 import Checkout from './components/Checkout/Checkout';
 
 
@@ -27,8 +27,8 @@ function App() {
     <>
       <Navbar/>
       {/* <Homepage/> */}
-      {/* <Store/> */}
-      <Checkout/>
+      <Store/>
+      {/* <Checkout/> */}
       <Footer/>
     </>
   )
