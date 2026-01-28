@@ -10,7 +10,7 @@ import { Telephone, Envelope, GeoAlt, Heart, Cart3, List, X, ArrowRightCircle } 
 import { Link } from 'react-router-dom'
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 
-const Navbar = () => {
+const Navbar = ({ onCartToggle }) => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -71,8 +71,11 @@ const Navbar = () => {
                 <div className="absolute -top-2 -right-1 bg-[#D10024] text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center">2</div>
               </div>
 
-              <div className="relative group flex flex-col items-center cursor-pointer">
-                <Cart3 size={18} className="md:size-/[20px]" />
+              <div className="relative group flex flex-col items-center cursor-pointer" onClick={(e) => {
+        console.log("Cart clicked!"); // Debugging: Check your console (F12)
+        onCartToggle(); 
+      }}>
+                <Cart3 size={18} className="md:size-/[20px]"/>
                 <span className="hidden sm:block text-[10px] uppercase mt-1">Cart</span>
                 <div className="absolute -top-2 -right-1 bg-[#D10024] text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center">3</div>
               </div>

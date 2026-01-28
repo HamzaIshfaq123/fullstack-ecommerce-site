@@ -58,7 +58,7 @@ const Homepage = () => {
   ></div>
 
   {/* TEXT CONTENT - Placed inside the triangle area */}
-  <div className="absolute inset-0 p-8 flex flex-col justify-center z-20">
+  <div className="absolute inset-0 p-8 flex flex-col justify-center">
     <h3 className="text-2xl font-bold text-white leading-tight uppercase">
       {shop.name}<br />Collection
     </h3>

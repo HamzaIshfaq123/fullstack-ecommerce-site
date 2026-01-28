@@ -4,7 +4,7 @@ import product1 from '../../../assets/images/product01.png'
 import { Link } from 'react-router-dom'
 
 const Store = () => {
-
+    const [isFilterOpen, setIsFilterOpen] = useState(false);
     // const [isSideBarOpen, setIsSideBarOpen] = useState(false)
   return (
     <div>
@@ -19,7 +19,7 @@ const Store = () => {
               {/* <a href="#" className="hover:text-[#D10024] transition-colors">
                 Home
               </a> */}
-              <Link to="/" className="hover:text-[#D10024] transition-colors"><li>Home</li></Link>
+              <Link to="/" className="hover:text-[#D10024] transition-colors">Home</Link>
             </li>
 
             {/* <li className="flex items-center gap-2 md:gap-4 text-gray-500 after:content-['/'] after:text-gray-300 last:after:content-none">
@@ -44,8 +44,28 @@ const Store = () => {
     </div>
     <div className="flex flex-col lg:flex-row">
     {/* <!-- Left Sidebar Area (Placeholder structure) --> */}
-    <aside className="hidden lg:block w-full lg:w-64 p-6 bg-white shadow-lg h-auto lg:h-screen text-center align-middle justify-center">
-        <h2 className="text-lg font-semibold mb-4 text-gray-800">CATEGORIES</h2>
+
+    {/* MOBILE FILTER DRAWER OVERLAY */}
+<div 
+  className={`fixed inset-0 bg-black/50 z-40 transition-opacity lg:hidden ${isFilterOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`} 
+  onClick={() => setIsFilterOpen(false)}
+/>
+
+{/* SIDEBAR / DRAWER */}
+<aside className={`
+  fixed lg:static top-0 left-0 h-full lg:h-auto z-50 lg:z-0
+  w-72 lg:w-64 bg-white p-6 shadow-xl lg:shadow-none
+  transform transition-transform duration-300 ease-in-out
+  ${isFilterOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+  overflow-y-auto lg:overflow-visible
+`}>
+    <div className="flex justify-between items-center lg:hidden mb-6 border-b pb-2">
+      <h2 className="text-xl font-bold">FILTERS</h2>
+      <button onClick={() => setIsFilterOpen(false)} className="text-2xl">&times;</button>
+    </div>
+
+    {/* ... ALL YOUR EXISTING CATEGORIES, PRICE, AND BRAND CODE HERE ... */}
+    <h2 className="text-lg font-semibold mb-4 text-gray-800">CATEGORIES</h2>
         <ul className="space-y-3 mb-6">
             <li><label className="flex items-center"><input type="checkbox" className="form-checkbox h-4 w-4 text-red-600 rounded mr-2" /> Laptops (120)</label></li>
             <li><label className="flex items-center"><input type="checkbox" className="form-checkbox h-4 w-4 text-red-600 rounded mr-2" /> Smartphones (0)</label></li>
@@ -68,10 +88,49 @@ const Store = () => {
             <li><label className="flex items-center"><input type="checkbox" className="form-checkbox h-4 w-4 text-red-600 rounded mr-2" /> SAMSUNG (578)</label></li>
             <li><label className="flex items-center"><input type="checkbox" className="form-checkbox h-4 w-4 text-red-600 rounded mr-2" /> LG (126)</label></li>
         </ul>
-    </aside>
+
+    <button className="w-full lg:hidden bg-[#D10024] text-white py-3 mt-6 font-bold uppercase rounded">
+      Apply Filters
+    </button>
+</aside>
+
+    {/* <aside className="hidden lg:block w-full lg:w-64 p-6 bg-white shadow-lg h-auto lg:h-screen text-center align-middle justify-center">
+        <h2 className="text-lg font-semibold mb-4 text-gray-800">CATEGORIES</h2>
+        <ul className="space-y-3 mb-6">
+            <li><label className="flex items-center"><input type="checkbox" className="form-checkbox h-4 w-4 text-red-600 rounded mr-2" /> Laptops (120)</label></li>
+            <li><label className="flex items-center"><input type="checkbox" className="form-checkbox h-4 w-4 text-red-600 rounded mr-2" /> Smartphones (0)</label></li>
+            <li><label className="flex items-center"><input type="checkbox" className="form-checkbox h-4 w-4 text-red-600 rounded mr-2" /> Cameras (1450)</label></li>
+            <li><label className="flex items-center"><input type="checkbox" className="form-checkbox h-4 w-4 text-red-600 rounded mr-2" /> Accessories (57)</label></li>
+            <li><label className="flex items-center"><input type="checkbox" className="form-checkbox h-4 w-4 text-red-600 rounded mr-2" /> Laptops (100)</label></li>
+            <li><label className="flex items-center"><input type="checkbox" className="form-checkbox h-4 w-4 text-red-600 rounded mr-2" /> Smartphones (740)</label></li>
+        </ul>
+
+        <h2 className="text-lg font-semibold mb-4 text-gray-800">PRICE</h2>
+        {/* <!-- Price range input area --> */}
+        {/* <div className="flex items-center  mb-6">
+            <input type="number" value="1.00" className="w-1/2 p-2 border border-gray-300 rounded text-sm" />
+            <span>-</span>
+            <input type="number" value="999.00" className="w-1/2 p-2 border border-gray-300 rounded text-sm" />
+        </div>
+        
+        <h2 className="text-lg font-semibold mb-4 text-gray-800">BRAND</h2>
+        <ul className="space-y-3">
+            <li><label className="flex items-center"><input type="checkbox" className="form-checkbox h-4 w-4 text-red-600 rounded mr-2" /> SAMSUNG (578)</label></li>
+            <li><label className="flex items-center"><input type="checkbox" className="form-checkbox h-4 w-4 text-red-600 rounded mr-2" /> LG (126)</label></li>
+        </ul>
+    </aside>  */}
 
     {/* <!-- Main Content Area --> */}
     <main className="flex-1 p-6 bg-gray-50">
+        {/* Mobile Toggle Button */}
+    <button 
+      onClick={() => setIsFilterOpen(true)}
+      className="lg:hidden flex items-center gap-2 mb-4 bg-gray-100 px-4 py-2 rounded border border-gray-200 text-sm font-bold uppercase tracking-tight"
+    >
+      <i className="fa fa-filter"></i> Filter 
+    </button>
+
+    {/* ... Your Top Controls (Sort By, etc.) and Product Grid ... */}
         {/* <!-- Top controls/toolbar --> */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
             <div className="flex items-center space-x-2 w-full sm:w-auto">
