@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Checkout = () => {
   return (
@@ -8,7 +9,7 @@ const Checkout = () => {
   <div className="container mx-auto px-4">
     <h3 className="text-2xl font-bold text-gray-800 uppercase tracking-tight">Checkout</h3>
     <ul className="flex items-center space-x-2 text-sm mt-2 text-gray-500">
-      <li><a href="#" className="hover:text-red-600 transition">Home</a></li>
+      <li><Link to="/" className="hover:text-red-600 transition">Home</Link></li>
       <li><span className="mx-2">/</span></li>
       <li className="text-red-600 font-medium">Checkout</li>
     </ul>

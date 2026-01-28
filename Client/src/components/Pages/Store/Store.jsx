@@ -1,33 +1,38 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import product1 from '../../../assets/images/product01.png'
+import { Link } from 'react-router-dom'
 
 const Store = () => {
+
     // const [isSideBarOpen, setIsSideBarOpen] = useState(false)
   return (
     <div>
+        
+
       <div id="breadcrumb" className="bg-[#FBFBFC] border-b border-gray-200 py-6">
       <div className="container mx-auto px-4">
         <div className="flex items-center">
           <ul className="flex flex-wrap items-center gap-2 md:gap-4 text-[12px] md:text-sm font-medium uppercase tracking-wide">
             {/* Breadcrumb Item */}
             <li className="flex items-center gap-2 md:gap-4 text-gray-500 after:content-['/'] after:text-gray-300 last:after:content-none">
-              <a href="#" className="hover:text-[#D10024] transition-colors">
+              {/* <a href="#" className="hover:text-[#D10024] transition-colors">
                 Home
-              </a>
+              </a> */}
+              <Link to="/" className="hover:text-[#D10024] transition-colors"><li>Home</li></Link>
             </li>
 
-            <li className="flex items-center gap-2 md:gap-4 text-gray-500 after:content-['/'] after:text-gray-300 last:after:content-none">
+            {/* <li className="flex items-center gap-2 md:gap-4 text-gray-500 after:content-['/'] after:text-gray-300 last:after:content-none">
               <a href="#" className="hover:text-[#D10024] transition-colors">
                 All Categories
               </a>
-            </li>
+            </li> */}
 
-            <li className="flex items-center gap-2 md:gap-4 text-gray-500 after:content-['/'] after:text-gray-300 last:after:content-none">
+            {/* <li className="flex items-center gap-2 md:gap-4 text-gray-500 after:content-['/'] after:text-gray-300 last:after:content-none">
               <a href="#" className="hover:text-[#D10024] transition-colors">
                 Accessories
               </a>
-            </li>
+            </li> */}
 
             {/* Active Item */}
             <li className="text-[#D10024] font-bold">
@@ -199,3 +204,4 @@ const Store = () => {
 }
 
 export default Store
+

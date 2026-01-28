@@ -7,7 +7,7 @@ import product1 from '../../assets/images/product01.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook } from '@fortawesome/free-brands-svg-icons'
 import { Telephone, Envelope, GeoAlt, Heart, Cart3, List, X, ArrowRightCircle } from 'react-bootstrap-icons';
-
+import { Link } from 'react-router-dom'
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 
 const Navbar = () => {

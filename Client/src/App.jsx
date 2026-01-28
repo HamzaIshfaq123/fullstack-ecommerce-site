@@ -18,7 +18,7 @@ import "tailwindcss";
 import Footer from './components/Footer/footer';
 import Homepage from './components/Pages/Homepage/Homepage';
 import Store from './components/Pages/Store/Store';
-import Checkout from './components/Checkout/Checkout';
+import Checkout from './components/Pages/Checkout/Checkout';
 
 
 function App() {
@@ -33,5 +33,6 @@ function App() {
     </>
   )
 }
+
 
 export default App
