@@ -15,7 +15,7 @@ import shop3 from '../../../assets/images/shop03.png'
 
 import {ArrowRightCircleFill} from "react-bootstrap-icons"
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { StarFill, Heart, Shuffle, Eye, CartDash } from 'react-bootstrap-icons';
 
 const categories = ['Laptops', 'Smartphones', 'Cameras', 'Accessories'];
@@ -23,10 +23,29 @@ const categories = ['Laptops', 'Smartphones', 'Cameras', 'Accessories'];
 const Homepage = () => {
     const [activeTab, setActiveTab] = useState('Laptops');
     const shops = [
-    { id: 1, name: "Laptop", img: "./img/shop01.png" },
-    { id: 2, name: "Accessories", img: "./img/shop03.png" },
-    { id: 3, name: "Cameras", img: "./img/shop02.png" },
+    { id: 1, name: "Laptop", img: shop1 },
+    { id: 2, name: "Accessories", img: shop2 },
+    { id: 3, name: "Cameras", img: shop3 },
   ];
+
+  const [products, setProducts] = useState([]);
+    // const storeId = "65b2f1a5e4b0a1a2b3c4d5e6"; // Replace with dynamic ID later
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await fetch(`http://localhost:3000/api/products`);
+                const data = await response.json();
+                setProducts(data.products);
+                console.log(data);
+                
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            }
+        };
+
+        fetchProducts();
+    }, []);
   return (
     <div>
       {/* NAVIGATION */}
@@ -43,7 +62,7 @@ const Homepage = () => {
   
   {/* The Product Image - Stays in the background */}
   <img 
-    src={shop1} 
+    src={shop.img} 
     alt={shop.name} 
     className="absolute right-0 bottom-0 w-2/3 h-full object-contain transition-transform duration-500 group-hover:scale-110" 
   />
@@ -110,12 +129,12 @@ const Homepage = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           
           {/* SINGLE PRODUCT CARD */}
-          <div className="group relative border border-[#E4E7ED] p-4 transition-all hover:shadow-lg hover:border-[#D10024]">
+          {products && products.map((product) => (<div key={product._id} className="group relative border border-[#E4E7ED] p-4 transition-all hover:shadow-lg hover:border-[#D10024]">
             
             {/* PRODUCT IMAGE */}
             <div className="relative h-64 flex items-center justify-center overflow-hidden">
               <img 
-                src={product1} 
+                src={product.images[0]} 
                 alt="Product" 
                 className="max-h-full transition-transform duration-500 group-hover:scale-110" 
               />
@@ -126,13 +145,13 @@ const Homepage = () => {
             </div>
 
             {/* PRODUCT BODY */}
-            <div className="text-center mt-4">
+             <div className="text-center mt-4">
               <p className="text-[10px] uppercase text-[#8D99AE] mb-1">Category</p>
               <h3 className="text-sm font-bold uppercase hover:text-[#D10024] transition-colors mb-2">
-                <a href="#">Product Name Goes Here</a>
+                <a href="#">{product.name}</a>
               </h3>
               <h4 className="text-[#D10024] font-bold text-lg">
-                $980.00 <del className="text-[#8D99AE] font-normal text-sm ml-2">$990.00</del>
+                ${product.price} <del className="text-[#8D99AE] font-normal text-sm ml-2">${product.old_price}</del>
               </h4>
 
               {/* RATING */}
@@ -167,7 +186,7 @@ const Homepage = () => {
 			</button>
 			</div>
 
-          </div>
+          </div>))}
           {/* END SINGLE PRODUCT */}
 
         </div>
