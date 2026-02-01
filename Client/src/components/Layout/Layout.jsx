@@ -2,7 +2,7 @@ import React from 'react'
 import { Outlet } from 'react-router-dom';
 import { useState } from 'react';
 import Navbar from '../Header/Navbar';
-import Footer from '../Footer/footer';
+import Footer from '../Footer/Footer';
 import Cart from '../Pages/Cart/Cart';
 
 const Layout = () => {
