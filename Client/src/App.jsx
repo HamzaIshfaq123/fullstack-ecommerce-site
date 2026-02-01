@@ -15,7 +15,7 @@ import "tailwindcss";
 // import 'bootstrap/dist/css/bootstrap.min.css';
 // import 'bootstrap/dist/js/bootstrap.bundle.min'; 
 
-import Footer from './components/Footer/footer';
+import Footer from './components/Footer/Footer';
 import Homepage from './components/Pages/Homepage/Homepage';
 import Store from './components/Pages/Store/Store';
 import Checkout from './components/Pages/Checkout/Checkout';
