@@ -34,8 +34,11 @@ const Homepage = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await fetch(`http://localhost:3000/api/products`);
-                const data = await response.json();
+                // const response = await fetch(`http://localhost:3000/api/products`);
+                // To this:
+                const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+                const res = await fetch(`${API_URL}/api/products`);
+                const data = await res.json();
                 setProducts(data.products);
                 console.log(data);
                 
