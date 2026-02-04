@@ -10,6 +10,10 @@ import Homepage from './components/Pages/Homepage/Homepage.jsx'
 import Checkout from './components/Pages/Checkout/Checkout.jsx'
 import Layout from './components/Layout/Layout.jsx'
 import Account from './components/Pages/Account/Account.jsx'
+import { NavUser } from './components/nav-user'
+import { SidebarProvider } from './components/ui/sidebar'
+import Dashboard from './components/Admin/Dashboard/Dashboard.jsx'
+
 // import './components/styles/font-awesome.min.css'
 
 const router = createBrowserRouter([
@@ -33,8 +37,12 @@ const router = createBrowserRouter([
         path: '/account',
         element: <Account />
       },
-    ]
+    ],
   },
+    {
+      path: '/dashboard',
+      element: <Dashboard/>
+    }
 ]);
 
 
