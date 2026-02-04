@@ -9,8 +9,11 @@ import { faFacebook } from '@fortawesome/free-brands-svg-icons'
 import { Telephone, Envelope, GeoAlt, Heart, Cart3, List, X, ArrowRightCircle } from 'react-bootstrap-icons';
 import { Link } from 'react-router-dom'
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
+import Login from '../Pages/Auth/Login';
+import Signup from '../Pages/Auth/Signup';
 
 const Navbar = ({ onCartToggle }) => {
+    const [authModalType, setAuthModalType] = useState(null); // 'login', 'signup', or null
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -45,11 +48,29 @@ const Navbar = ({ onCartToggle }) => {
             </li> */}
           </ul>
           <ul className="flex gap-4 items-center">
-            <li className="hover:text-[#D10024] cursor-pointer"><span className="text-[#D10024] font-bold">$</span> USD</li>
-            <li className="hover:text-[#D10024] cursor-pointer">My Account</li>
+            <li onClick={() => setAuthModalType('login')} className="hover:text-[#D10024] cursor-pointer"><span className="text-[#D10024] font-bold"></span> Login</li>
+            <li onClick={() => setAuthModalType('signup')} className="hover:text-[#D10024] cursor-pointer">Signup</li>
+            <Link to="/account"><li className="hover:text-[#D10024] cursor-pointer">Account</li></Link> 
           </ul>
         </div>
       </div>
+
+      {/* Logic to render based on the string state */}
+      {authModalType === 'login' && (
+        <Login 
+          isOpen={true} 
+          onClose={() => setAuthModalType(null)} 
+          openSignup={() => setAuthModalType('signup')} 
+        />
+      )}
+
+      {authModalType === 'signup' && (
+        <Signup 
+          isOpen={true} 
+          onClose={() => setAuthModalType(null)} 
+          openLogin={() => setAuthModalType('login')} 
+        />
+      )}
 
       {/* 2. MAIN HEADER - Flex Wrap & Mobile Optimization */}
       <div className="bg-[#1E1F29] py-4 md:py-6">

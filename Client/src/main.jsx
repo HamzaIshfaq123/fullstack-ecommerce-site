@@ -9,6 +9,7 @@ import Footer from './components/Footer/Footer.jsx'
 import Homepage from './components/Pages/Homepage/Homepage.jsx'
 import Checkout from './components/Pages/Checkout/Checkout.jsx'
 import Layout from './components/Layout/Layout.jsx'
+import Account from './components/Pages/Account/Account.jsx'
 // import './components/styles/font-awesome.min.css'
 
 const router = createBrowserRouter([
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
       {
         path: '/checkout',
         element: <Checkout />
+      },
+      {
+        path: '/account',
+        element: <Account />
       },
     ]
   },

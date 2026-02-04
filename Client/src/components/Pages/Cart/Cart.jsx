@@ -14,7 +14,7 @@ const Cart = ({ isCartOpen, setIsCartOpen }) => {
 
       {/* 2. CART SIDEBAR */}
       <aside className={`
-        fixed top-0 right-0 h-full w-full sm:w-/[400px] bg-white z-/[9998] shadow-2xl
+        fixed top-0 right-0 h-full w-full lg:w-96 sm:w-/[400px] bg-white z-/[9998] shadow-2xl
         transform transition-transform duration-300 z-/[9998] ease-in-out flex flex-col
         ${isCartOpen ? 'translate-x-0' : 'translate-x-full'}
       `}>
