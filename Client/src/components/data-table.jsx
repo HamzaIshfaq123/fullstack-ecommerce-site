@@ -393,14 +393,14 @@ export function DataTable({
         </Select>
         <TabsList
           className="**:data-[slot=badge]:bg-muted-foreground/30 hidden **:data-[slot=badge]:size-5 **:data-[slot=badge]:rounded-full **:data-[slot=badge]:px-1 @4xl/main:flex">
-          <TabsTrigger value="outline">Outline</TabsTrigger>
-          <TabsTrigger value="past-performance">
+          {/* <TabsTrigger value="outline">Outline</TabsTrigger> */}
+          {/* <TabsTrigger value="past-performance">
             Past Performance <Badge variant="secondary">3</Badge>
-          </TabsTrigger>
-          <TabsTrigger value="key-personnel">
+          </TabsTrigger> */}
+          {/* <TabsTrigger value="key-personnel">
             Key Personnel <Badge variant="secondary">2</Badge>
-          </TabsTrigger>
-          <TabsTrigger value="focus-documents">Focus Documents</TabsTrigger>
+          </TabsTrigger> */}
+          {/* <TabsTrigger value="focus-documents">Focus Documents</TabsTrigger> */}
         </TabsList>
         <div className="flex items-center gap-2">
           <DropdownMenu>
@@ -412,7 +412,7 @@ export function DataTable({
                 <IconChevronDown />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56">
+            <DropdownMenuContent align="end" className="w-56 text-white bg-zinc-900">
               {table
                 .getAllColumns()
                 .filter((column) =>
@@ -433,16 +433,16 @@ export function DataTable({
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button variant="outline" size="sm">
+          {/* <Button variant="outline" size="sm">
             <IconPlus />
             <span className="hidden lg:inline">Add Section</span>
-          </Button>
+          </Button> */}
         </div>
       </div>
       <TabsContent
         value="outline"
         className="relative flex flex-col gap-4 overflow-auto px-4 lg:px-6">
-        <div className="overflow-hidden rounded-lg border">
+        <div className="overflow-hidden rounded-lg border border-zinc-900">
           <DndContext
             collisionDetection={closestCenter}
             modifiers={[restrictToVerticalAxis]}
@@ -452,7 +452,7 @@ export function DataTable({
             <Table>
               <TableHeader className="bg-muted sticky top-0 z-10">
                 {table.getHeaderGroups().map((headerGroup) => (
-                  <TableRow className="bg-zinc-900" key={headerGroup.id}>
+                  <TableRow className="bg-zinc-900 " key={headerGroup.id}>
                     {headerGroup.headers.map((header) => {
                       return (
                         <TableHead  key={header.id} colSpan={header.colSpan}>
@@ -465,16 +465,16 @@ export function DataTable({
                   </TableRow>
                 ))}
               </TableHeader>
-              <TableBody className="**:data-[slot=table-cell]:first:w-8">
+              <TableBody className="**:data-[slot=table-cell]:first:w-8 ">
                 {table.getRowModel().rows?.length ? (
                   <SortableContext items={dataIds} strategy={verticalListSortingStrategy}>
                     {table.getRowModel().rows.map((row) => (
-                      <DraggableRow key={row.id} row={row} />
+                      <DraggableRow key={row.id} row={row}/>
                     ))}
                   </SortableContext>
                 ) : (
                   <TableRow>
-                    <TableCell  colSpan={columns.length} className="h-24 text-center ">
+                    <TableCell  colSpan={columns.length} className="h-24 text-center">
                       No results.
                     </TableCell>
                   </TableRow>
@@ -600,9 +600,9 @@ function TableCellViewer({
           {item.header}
         </Button>
       </DrawerTrigger>
-      <DrawerContent>
+      <DrawerContent className="bg-black text-zinc-300">
         <DrawerHeader className="gap-1">
-          <DrawerTitle>{item.header}</DrawerTitle>
+          <DrawerTitle className="text-white">{item.header}</DrawerTitle>
           <DrawerDescription>
             Showing total visitors for the last 6 months
           </DrawerDescription>
@@ -611,7 +611,7 @@ function TableCellViewer({
           {!isMobile && (
             <>
               <ChartContainer config={chartConfig}>
-                <AreaChart
+                <AreaChart className="bg-zinc-600"
                   accessibilityLayer
                   data={chartData}
                   margin={{
@@ -625,7 +625,7 @@ function TableCellViewer({
                     axisLine={false}
                     tickMargin={8}
                     tickFormatter={(value) => value.slice(0, 3)}
-                    hide />
+                    hide/>
                   <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="dot" />} />
                   <Area
                     dataKey="mobile"
@@ -645,7 +645,7 @@ function TableCellViewer({
               </ChartContainer>
               <Separator />
               <div className="grid gap-2">
-                <div className="flex gap-2 leading-none font-medium">
+                <div className="flex gap-2 leading-none font-medium text-white">
                   Trending up by 5.2% this month{" "}
                   <IconTrendingUp className="size-4" />
                 </div>
@@ -660,12 +660,12 @@ function TableCellViewer({
           )}
           <form className="flex flex-col gap-4">
             <div className="flex flex-col gap-3">
-              <Label htmlFor="header">Header</Label>
-              <Input id="header" defaultValue={item.header} />
+              <Label className="text-white" htmlFor="header">Header</Label>
+              <Input className="bg-zinc-900" id="header" defaultValue={item.header} />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-3">
-                <Label htmlFor="type">Type</Label>
+                <Label className="text-white" htmlFor="type">Type</Label>
                 <Select defaultValue={item.type}>
                   <SelectTrigger id="type" className="w-full">
                     <SelectValue placeholder="Select a type" />
@@ -691,7 +691,7 @@ function TableCellViewer({
                 </Select>
               </div>
               <div className="flex flex-col gap-3">
-                <Label htmlFor="status">Status</Label>
+                <Label className="text-white" htmlFor="status">Status</Label>
                 <Select defaultValue={item.status}>
                   <SelectTrigger id="status" className="w-full">
                     <SelectValue placeholder="Select a status" />
@@ -706,16 +706,16 @@ function TableCellViewer({
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-3">
-                <Label htmlFor="target">Target</Label>
-                <Input id="target" defaultValue={item.target} />
+                <Label className="text-white" htmlFor="target">Target</Label>
+                <Input className="bg-zinc-900" id="target" defaultValue={item.target} />
               </div>
               <div className="flex flex-col gap-3">
-                <Label htmlFor="limit">Limit</Label>
-                <Input id="limit" defaultValue={item.limit} />
+                <Label className="text-white" htmlFor="limit">Limit</Label>
+                <Input className="bg-zinc-900" id="limit" defaultValue={item.limit} />
               </div>
             </div>
             <div className="flex flex-col gap-3">
-              <Label htmlFor="reviewer">Reviewer</Label>
+              <Label className="text-white" htmlFor="reviewer">Reviewer</Label>
               <Select defaultValue={item.reviewer}>
                 <SelectTrigger id="reviewer" className="w-full">
                   <SelectValue placeholder="Select a reviewer" />
@@ -732,7 +732,7 @@ function TableCellViewer({
           </form>
         </div>
         <DrawerFooter>
-          <Button>Submit</Button>
+          <Button className="bg-stone-100 text-zinc-900">Submit</Button>
           <DrawerClose asChild>
             <Button variant="outline">Done</Button>
           </DrawerClose>

@@ -28,7 +28,7 @@ export default function Dashboard() {
               <div className="px-4 lg:px-6">
                 <ChartAreaInteractive  />
               </div>
-              <DataTable className="bg-zinc-900" data={data} />
+              <DataTable className="bg-zinc-900 border! border-black!" data={data} />
             </div>
           </div>
         </div>

@@ -39,8 +39,8 @@ export function NavDocuments({
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuAction showOnHover className="data-[state=open]:bg-accent rounded-sm">
-                  <IconDots />
-                  <span className="sr-only">More</span>
+                  {/* <IconDots /> */}
+                  {/* <span className="sr-only">More</span> */}
                 </SidebarMenuAction>
               </DropdownMenuTrigger>
               <DropdownMenuContent
@@ -66,8 +66,8 @@ export function NavDocuments({
         ))}
         <SidebarMenuItem>
           <SidebarMenuButton className="text-sidebar-foreground/70">
-            <IconDots className="text-sidebar-foreground/70" />
-            <span>More</span>
+            {/* <IconDots className="text-sidebar-foreground/70" /> */}
+            {/* <span>More</span> */}
           </SidebarMenuButton>
         </SidebarMenuItem>
       </SidebarMenu>
