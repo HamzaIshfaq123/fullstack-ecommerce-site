@@ -3,6 +3,9 @@ const connectDB = require("./src/config/db");
 const User = require("./src/models/user.model"); // Import to use in routes
 const Product = require("./src/models/product.model")
 
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+
 const app = express();
 
 require('dotenv').config();
@@ -12,6 +15,20 @@ connectDB(); // Execute the connection
 app.use(express.json());
 
 const cors = require("cors")
+
+// Middleware to protect routes
+const authenticateToken = (req, res, next) => {
+    const token = req.header('Authorization')?.split(' ')[1];
+    if (!token) return res.status(401).send('Access Denied');
+
+    try {
+        const verified = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = verified;
+        next();
+    } catch (err) {
+        res.status(400).send('Invalid Token');
+    }
+};
 
 // previous code for local connection
 // app.use(

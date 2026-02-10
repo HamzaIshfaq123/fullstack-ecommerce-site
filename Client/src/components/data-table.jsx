@@ -667,10 +667,10 @@ function TableCellViewer({
               <div className="flex flex-col gap-3">
                 <Label className="text-white" htmlFor="type">Type</Label>
                 <Select defaultValue={item.type}>
-                  <SelectTrigger id="type" className="w-full">
+                  <SelectTrigger id="type" className="w-full bg-zinc-900">
                     <SelectValue placeholder="Select a type" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-zinc-900 text-zinc-300">
                     <SelectItem value="Table of Contents">
                       Table of Contents
                     </SelectItem>
@@ -693,10 +693,10 @@ function TableCellViewer({
               <div className="flex flex-col gap-3">
                 <Label className="text-white" htmlFor="status">Status</Label>
                 <Select defaultValue={item.status}>
-                  <SelectTrigger id="status" className="w-full">
+                  <SelectTrigger id="status" className="w-full bg-zinc-900">
                     <SelectValue placeholder="Select a status" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-zinc-900 text-zinc-300">
                     <SelectItem value="Done">Done</SelectItem>
                     <SelectItem value="In Progress">In Progress</SelectItem>
                     <SelectItem value="Not Started">Not Started</SelectItem>
@@ -717,10 +717,10 @@ function TableCellViewer({
             <div className="flex flex-col gap-3">
               <Label className="text-white" htmlFor="reviewer">Reviewer</Label>
               <Select defaultValue={item.reviewer}>
-                <SelectTrigger id="reviewer" className="w-full">
+                <SelectTrigger id="reviewer" className="w-full bg-zinc-900">
                   <SelectValue placeholder="Select a reviewer" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-zinc-900 text-zinc-300">
                   <SelectItem value="Eddie Lake">Eddie Lake</SelectItem>
                   <SelectItem value="Jamik Tashpulatov">
                     Jamik Tashpulatov

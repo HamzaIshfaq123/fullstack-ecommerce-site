@@ -54,43 +54,43 @@ export function NavUser({
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
+            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg bg-zinc-900"
             side={isMobile ? "bottom" : "right"}
             align="end"
             sideOffset={4}>
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                <Avatar className="h-8 w-8 rounded-lg">
+                <Avatar className="h-8 w-8 rounded-lg text-zinc-300 ">
                   <AvatarImage src={user.avatar} alt={user.name} />
                   <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user.name}</span>
-                  <span className="text-muted-foreground truncate text-xs">
+                  <span className="truncate font-medium text-zinc-300">{user.name}</span>
+                  <span className="text-muted-foreground truncate text-xs text-zinc-300">
                     {user.email}
                   </span>
                 </div>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
+            <DropdownMenuGroup className="bg-zinc-900 text-zinc-300 ">
+              <DropdownMenuItem className="hover:bg-zinc-500">
                 <IconUserCircle />
                 Account
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem className="hover:bg-zinc-500">
                 <IconCreditCard />
                 Billing
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem className="hover:bg-zinc-500">
                 <IconNotification />
                 Notifications
               </DropdownMenuItem>
             </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <IconLogout />
-              Log out
+            {/* <DropdownMenuSeparator className="text-white"/> */}
+            <DropdownMenuItem className="text-zinc-300 hover:bg-zinc-500">
+              <IconLogout className="text-zinc-300"/>
+               Log out
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
