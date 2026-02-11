@@ -25,7 +25,7 @@ The focus is not only on UI, but also on:
 - React
 - Tailwind CSS
 - React Router
-- Axios
+- Fetch
 
 ### Backend (Server)
 - Node.js

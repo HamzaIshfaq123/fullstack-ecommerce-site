@@ -14,7 +14,7 @@ const Signup = ({ isOpen, onClose, openLogin }) => {
   const handleSubmit = async (e) => {
   e.preventDefault();
   
-  const response = await fetch("http://localhost:3000/register", {
+  const response = await fetch("https://fullstack-ecommerce-site-backend.vercel.app/register", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(formData),
