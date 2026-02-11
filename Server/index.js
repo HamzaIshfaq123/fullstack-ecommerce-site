@@ -1,14 +1,20 @@
+require('dotenv').config();
 const express = require("express");
 const connectDB = require("./src/config/db");
 const User = require("./src/models/user.model"); // Import to use in routes
 const Product = require("./src/models/product.model")
 
+const { body, validationResult } = require('express-validator');
+// const bcrypt = require('bcryptjs');
+
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const { setUser } = require('./service/auth')
 
 const app = express();
 
-require('dotenv').config();
+// Add this to check if your env is actually loading
+console.log("DB URI check:", process.env.MONGO_URI ? "Found" : "Missing");
 
 connectDB(); // Execute the connection
 
@@ -78,6 +84,85 @@ app.get("/api/products", async (req, res) => {
   } catch (err) {
     console.error("Error fetching products:", err);
     res.status(500).json({ error: "Database error" });
+  }
+});
+
+// route for handling signup
+// app.post("/register", [
+//   // Validation Middleware
+//   body('email').isEmail().withMessage('Enter a valid email'),
+//   body('password').isLength({ min: 6 }).withMessage('Password must be 6+ chars'),
+//   body('firstName').notEmpty().withMessage('First name is required')
+// ], async (req, res) => {
+  
+//   // 1. Check for validation errors
+//   const errors = validationResult(req);
+//   if (!errors.isEmpty()) {
+//     return res.status(400).json({ errors: errors.array() });
+//   }
+
+//   const { firstName, lastName, email, password } = req.body;
+
+//   try {
+//     // 2. Check if user already exists
+//     const existingUser = await userModel.findOne({ email });
+//     if (existingUser) return res.status(400).json({ message: "Email already in use" });
+
+//     // 3. Hash Password & Save
+//     const hashedPassword = await bcrypt.hash(password, 10);
+//     const newUser = await userModel.create({
+//       name: `${firstName} ${lastName}`,
+//       email,
+//       password: hashedPassword
+//     });
+
+//     // 4. Generate Token (using your existing setUser function)
+//     const token = setUser(newUser);
+//     res.status(201).json({ token, message: "User created successfully" });
+
+//   } catch (err) {
+//     res.status(500).json({ message: "Server error" });
+//   }
+// });
+app.post("/register", async (req, res) => {
+  try {
+    const { first_name, last_name, email, password } = req.body;
+
+    // 1. Basic Validation
+    if (!first_name || !last_name || !email || !password) {
+      return res.status(400).json({ message: "Missing required fields" });
+    }
+
+    // 2. Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already registered" });
+    }
+
+    // 3. Hash the password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // 4. Create User
+    const newUser = await User.create({
+      first_name: `${first_name}`,
+      last_name: `${last_name}`,
+      email,
+      password: hashedPassword
+    });
+
+    // 5. Generate JWT (Stateless Auth)
+    const token = setUser(newUser);
+
+    // 6. Send response (React will receive this)
+    res.status(201).json({ 
+      token, 
+      user: { id: newUser._id, name: newUser.name } 
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 });
 

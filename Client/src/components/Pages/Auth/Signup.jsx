@@ -1,8 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 
 const Signup = ({ isOpen, onClose, openLogin }) => {
   if (!isOpen) return null;
+
+  // ... inside your component
+  const [formData, setFormData] = useState({ first_name: '', last_name: '', email: '', password: '' });
+
+  const handleChange = (e) => {
+  setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  
+  const response = await fetch("http://localhost:3000/register", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(formData),
+  });
+
+  const data = await response.json();
+  if (response.ok) {
+    // create notification here in future
+    alert("Account Created Successfully!");
+    localStorage.setItem("token", data.token);
+    onClose();
+  } else {
+    alert(data.message || "Registration failed");
+  }
+};
 
   return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
@@ -12,15 +39,15 @@ const Signup = ({ isOpen, onClose, openLogin }) => {
         
         <h2 className="text-xl font-light tracking-widest uppercase mb-8 text-center">Register</h2>
         
-        <form className="flex flex-col gap-5">
+        <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
           <div className="flex gap-2">
-            <input type="text" placeholder="First Name" className="w-1/2 border-b border-gray-300 py-2 focus:border-black outline-none transition-all text-sm" />
-            <input type="text" placeholder="Last Name" className="w-1/2 border-b border-gray-300 py-2 focus:border-black outline-none transition-all text-sm" />
+            <input type="text" name="first_name" onChange={handleChange} placeholder="First Name" className="w-1/2 border-b border-gray-300 py-2 focus:border-black outline-none transition-all text-sm" value={formData.first_name} />
+            <input type="text" placeholder="Last Name" name="last_name" onChange={handleChange} className="w-1/2 border-b border-gray-300 py-2 focus:border-black outline-none transition-all text-sm" value={formData.last_name} />
           </div>
-          <input type="email" placeholder="Email Address" className="border-b border-gray-300 py-2 focus:border-black outline-none transition-all text-sm" />
-          <input type="password" placeholder="Password" className="border-b border-gray-300 py-2 focus:border-black outline-none transition-all text-sm" />
+          <input type="email" name="email" onChange={handleChange} placeholder="Email Address" className="border-b border-gray-300 py-2 focus:border-black outline-none transition-all text-sm" value={formData.email}/>
+          <input type="password" name="password" onChange={handleChange} placeholder="Password" className="border-b border-gray-300 py-2 focus:border-black outline-none transition-all text-sm" value={formData.password}/>
           
-          <button className="bg-black text-white py-3 mt-4 text-xs tracking-[0.2em] uppercase hover:bg-zinc-800 transition-colors">
+          <button type='submit' className="bg-black text-white py-3 mt-4 text-xs tracking-[0.2em] uppercase hover:bg-zinc-800 transition-colors">
             Create Account
           </button>
         </form>
