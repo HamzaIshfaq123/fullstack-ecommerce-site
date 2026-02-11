@@ -14,7 +14,7 @@ const Signup = ({ isOpen, onClose, openLogin }) => {
   const handleSubmit = async (e) => {
   e.preventDefault();
   
-  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+  const API_URL = import.meta.env.VITE_API_URL || "https://localhost:3000";
   const response = await fetch(`${API_URL}/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },

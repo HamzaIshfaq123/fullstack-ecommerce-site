@@ -141,16 +141,16 @@ app.post("/register", async (req, res) => {
       return res.status(400).json({ message: "Email already registered" });
     }
 
-    // 3. Hash the password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    // 3. Hash the password -- lets avoid this for now because of vercel's unexpected behavior with this
+    // const salt = await bcrypt.genSalt(10);
+    // const hashedPassword = await bcrypt.hash(password, salt);
 
     // 4. Create User
     const newUser = await User.create({
       first_name: `${first_name}`,
       last_name: `${last_name}`,
       email,
-      password: hashedPassword
+      password: password
     });
 
     // 5. Generate JWT (Stateless Auth)
