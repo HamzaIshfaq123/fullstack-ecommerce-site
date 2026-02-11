@@ -14,7 +14,7 @@ const { setUser } = require('./service/auth')
 const app = express();
 
 // Add this to check if your env is actually loading
-console.log("DB URI check:", process.env.MONGO_URI ? "Found" : "Missing");
+// console.log("DB URI check:", process.env.MONGO_URI ? "Found" : "Missing");
 
 connectDB(); // Execute the connection
 

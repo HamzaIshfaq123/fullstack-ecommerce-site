@@ -12,14 +12,30 @@ const mongoose = require("mongoose");
 
 // module.exports = connectDB;
 
+// Use a variable outside the function to store the connection state
+let isConnected = false;
+
 const connectDB = async () => {
+    // If already connected, return immediately
+    if (isConnected) {
+        console.log("Using existing MongoDB connection");
+        return;
+    }
+
     try {
-        // Use process.env to pull the string from Vercel's settings
-        const conn = await mongoose.connect(process.env.MONGO_URI);
-        console.log(`MongoDB Connected: ${conn.connection.host}`);
+        console.log("Connecting to MongoDB...");
+        const db = await mongoose.connect(process.env.MONGO_URI, {
+            // Options to prevent buffering and long timeouts on Vercel
+            bufferCommands: false,
+            serverSelectionTimeoutMS: 5000, 
+        });
+
+        isConnected = db.connections[0].readyState;
+        console.log(`MongoDB Connected: ${db.connection.host}`);
     } catch (err) {
-        console.error("MongoDB Connection Error:", err);
-        // On Vercel, we don't use process.exit(1) as it can crash the serverless function
+        console.error("MongoDB Connection Error:", err.message);
+        // Important for Vercel: throw the error so the route knows it failed
+        throw new Error("Database connection failed");
     }
 };
 
