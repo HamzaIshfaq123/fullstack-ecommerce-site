@@ -73,6 +73,8 @@ app.get("/users", async (req, res) => {
 // Read all Products
 app.get("/api/products", async (req, res) => {
   try {
+    // CRITICAL: Ensure the DB is connected before calling .find()
+        await connectDB(); 
     // .find({}) is the MongoDB equivalent of "SELECT * FROM users"
     const results = await Product.find({}); 
     
