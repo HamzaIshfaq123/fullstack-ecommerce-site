@@ -14,7 +14,8 @@ const Signup = ({ isOpen, onClose, openLogin }) => {
   const handleSubmit = async (e) => {
   e.preventDefault();
   
-  const response = await fetch("https://fullstack-ecommerce-site-backend.vercel.app/register", {
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+  const response = await fetch(`${API_URL}/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(formData),
