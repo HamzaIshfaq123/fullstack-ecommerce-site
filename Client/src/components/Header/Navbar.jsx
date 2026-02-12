@@ -1,8 +1,8 @@
 import React from 'react'
 import { useState } from 'react';
 // images
-import logo from '../../assets/images/logo.png'
-import product1 from '../../assets/images/product01.png'
+import logo from '/images/logo.png'
+// import product1 from '../../assets/images/product01.png'
 // import { Telephone } from 'react-bootstrap-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook } from '@fortawesome/free-brands-svg-icons'

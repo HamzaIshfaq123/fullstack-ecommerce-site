@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useRef } from 'react'
-import product1 from '../../../assets/images/product01.png'
+import product1 from '/images/product01.png'
 import { Link } from 'react-router-dom'
 
 const Store = () => {

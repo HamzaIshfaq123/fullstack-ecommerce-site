@@ -142,7 +142,7 @@ app.post("/register", async (req, res) => {
     // 6. Send response (React will receive this)
     res.status(201).json({ 
       token, 
-      user: { id: newUser._id, name: newUser.name } 
+      user: { id: newUser._id, email: newUser.email, } 
     });
 
   } catch (error) {
