@@ -13,30 +13,46 @@ const mongoose = require("mongoose");
 // module.exports = connectDB;
 
 // Use a variable outside the function to store the connection state
-let isConnected = false;
 
-const connectDB = async () => {
-    // If already connected, return immediately
-    if (isConnected) {
-        console.log("Using existing MongoDB connection");
-        return;
-    }
+const MONGO_URI = process.env.MONGO_URI;
 
-    try {
-        console.log("Connecting to MongoDB...");
-        const db = await mongoose.connect(process.env.MONGO_URI, {
-            // Options to prevent buffering and long timeouts on Vercel
-            bufferCommands: false,
-            serverSelectionTimeoutMS: 5000, 
-        });
+if (!MONGO_URI) {
+  throw new Error('Please define the MONGODB_URI environment variable');
+}
 
-        isConnected = db.connections[0].readyState;
-        console.log(`MongoDB Connected: ${db.connection.host}`);
-    } catch (err) {
-        console.error("MongoDB Connection Error:", err.message);
-        // Important for Vercel: throw the error so the route knows it failed
-        throw new Error("Database connection failed");
-    }
-};
+/** 
+ * Global is used here to maintain a cached connection across hot-reloads in development
+ * and function invocations in Vercel.
+ */
+let cached = global.mongoose;
 
-module.exports = connectDB;
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
+
+async function dbConnect() {
+  if (cached.conn) {
+    return cached.conn;
+  }
+
+  if (!cached.promise) {
+    const opts = {
+      bufferCommands: false, // Turn off Mongoose buffering!
+    };
+
+    cached.promise = mongoose.connect(MONGO_URI, opts).then((mongoose) => {
+      return mongoose;
+    });
+  }
+  
+  try {
+    cached.conn = await cached.promise;
+  } catch (e) {
+    cached.promise = null;
+    throw e;
+  }
+
+  return cached.conn;
+}
+
+module.exports = dbConnect;

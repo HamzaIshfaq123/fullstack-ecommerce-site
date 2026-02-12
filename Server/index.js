@@ -1,6 +1,6 @@
 require('dotenv').config();
 const express = require("express");
-const connectDB = require("./src/config/db");
+const dbConnect = require("./src/config/db");
 const User = require("./src/models/user.model"); // Import to use in routes
 const Product = require("./src/models/product.model")
 
@@ -16,7 +16,7 @@ const app = express();
 // Add this to check if your env is actually loading
 // console.log("DB URI check:", process.env.MONGO_URI ? "Found" : "Missing");
 
-connectDB(); // Execute the connection
+dbConnect(); // Execute the connection
 
 app.use(express.json());
 
@@ -54,27 +54,27 @@ app.use(
 );
 
 // READ (Get all users)
-app.get("/users", async (req, res) => {
-  try {
-    // .find({}) is the MongoDB equivalent of "SELECT * FROM users"
-    const results = await User.find({}); 
+// app.get("/users", async (req, res) => {
+//   try {
+//     // .find({}) is the MongoDB equivalent of "SELECT * FROM users"
+//     const results = await User.find({}); 
     
-    // Send JSON response
-    res.json({ users: results }); 
+//     // Send JSON response
+//     res.json({ users: results }); 
     
-    // Note: If you want to render an EJS page instead, use:
-    // res.render("users", { users: results });
-  } catch (err) {
-    console.error("Error fetching users:", err);
-    res.status(500).json({ error: "Database error" });
-  }
-});
+//     // Note: If you want to render an EJS page instead, use:
+//     // res.render("users", { users: results });
+//   } catch (err) {
+//     console.error("Error fetching users:", err);
+//     res.status(500).json({ error: "Database error" });
+//   }
+// });
 
 // Read all Products
 app.get("/api/products", async (req, res) => {
   try {
     // CRITICAL: Ensure the DB is connected before calling .find()
-        await connectDB(); 
+        await dbConnect(); // Force wait for DB connection
     // .find({}) is the MongoDB equivalent of "SELECT * FROM users"
     const results = await Product.find({}); 
     
@@ -128,6 +128,8 @@ app.get("/api/products", async (req, res) => {
 // });
 app.post("/register", async (req, res) => {
   try {
+    // CRITICAL: Ensure the DB is connected before calling .find()
+        await dbConnect(); // Force wait for DB connection
     const { first_name, last_name, email, password } = req.body;
 
     // 1. Basic Validation

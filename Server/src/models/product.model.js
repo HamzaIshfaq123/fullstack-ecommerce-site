@@ -24,4 +24,5 @@ const productSchema = new mongoose.Schema({
 // Compound index for faster filtering by store and category
 productSchema.index({ store_id: 1, category: 1 });
 
-module.exports = mongoose.model("Product", productSchema);
+// This checks if the model already exists before trying to create it
+module.exports = mongoose.models.Product || mongoose.model("Product", productSchema);
