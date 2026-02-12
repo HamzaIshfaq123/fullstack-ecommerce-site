@@ -128,8 +128,8 @@ app.get("/api/products", async (req, res) => {
 // });
 app.post("/register", async (req, res) => {
   try {
-    // CRITICAL: Ensure the DB is connected before calling .find()
-        await dbConnect(); // Force wait for DB connection
+    // Ensure the DB is connected before calling .find()
+    await dbConnect(); // Force wait for DB connection
     const { first_name, last_name, email, password } = req.body;
 
     // 1. Basic Validation
@@ -142,6 +142,13 @@ app.post("/register", async (req, res) => {
     if (existingUser) {
       return res.status(400).json({ message: "Email already registered" });
     }
+    // Advanced Check
+    if (password.length < 8) {
+    return res.status(400).json({ message: "Password must be at least 8 characters" });
+    }
+    if (!email.includes("@")) {
+    return res.status(400).json({ message: "Invalid email format" });
+    }
 
     // 3. Hash the password -- lets avoid this for now because of vercel's unexpected behavior with this
     // const salt = await bcrypt.genSalt(10);
@@ -149,9 +156,9 @@ app.post("/register", async (req, res) => {
 
     // 4. Create User
     const newUser = await User.create({
-      first_name: `${first_name}`,
-      last_name: `${last_name}`,
-      email,
+      first_name: first_name.trim(),
+      last_name: last_name.trim(),
+      email: email.toLowerCase().trim(),
       password: password
     });
 

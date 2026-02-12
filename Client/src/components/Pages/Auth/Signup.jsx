@@ -14,21 +14,32 @@ const Signup = ({ isOpen, onClose, openLogin }) => {
   const handleSubmit = async (e) => {
   e.preventDefault();
   
-  const API_URL = import.meta.env.VITE_API_URL || "https://localhost:3000";
-  const response = await fetch(`${API_URL}/register`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(formData),
-  });
-
-  const data = await response.json();
-  if (response.ok) {
-    // create notification here in future
-    alert("Account Created Successfully!");
-    localStorage.setItem("token", data.token);
-    onClose();
-  } else {
-    alert(data.message || "Registration failed");
+  try{
+    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+    const response = await fetch(`${API_URL}/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
+    
+    // Check if the response is actually JSON before parsing
+    const contentType = response.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+      throw new Error("Server didn't send JSON. Is the backend down?");
+    }
+    
+    const data = await response.json();
+    if (response.ok) {
+      // create notification here in future
+      alert("Account Created Successfully!");
+      localStorage.setItem("token", data.token);
+      onClose();
+    } else {
+      alert(data.message || "Registration failed");
+    }
+  } catch(error){
+    console.error("Network Error:", error);
+    alert("Could not connect to the server. Please check your internet.");
   }
 };
 
