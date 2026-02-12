@@ -13,8 +13,7 @@ const { setUser } = require('./service/auth')
 
 const app = express();
 
-// Add this to check if your env is actually loading
-// console.log("DB URI check:", process.env.MONGO_URI ? "Found" : "Missing");
+const authenticateToken = require("./src/middlewares/auth")
 
 dbConnect(); // Execute the connection
 
@@ -23,25 +22,18 @@ app.use(express.json());
 const cors = require("cors")
 
 // Middleware to protect routes
-const authenticateToken = (req, res, next) => {
-    const token = req.header('Authorization')?.split(' ')[1];
-    if (!token) return res.status(401).send('Access Denied');
+// const authenticateToken = (req, res, next) => {
+//     const token = req.header('Authorization')?.split(' ')[1];
+//     if (!token) return res.status(401).send('Access Denied');
 
-    try {
-        const verified = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = verified;
-        next();
-    } catch (err) {
-        res.status(400).send('Invalid Token');
-    }
-};
-
-// previous code for local connection
-// app.use(
-//     cors({
-//         origin: ['http://localhost:5173'],
-//     })
-// )
+//     try {
+//         const verified = jwt.verify(token, process.env.JWT_SECRET);
+//         req.user = verified;
+//         next();
+//     } catch (err) {
+//         res.status(400).send('Invalid Token');
+//     }
+// };
 
 // new code for mongodb cluster
 app.use(
@@ -70,7 +62,7 @@ app.use(
 //   }
 // });
 
-// Read all Products
+// Fetch all Products
 app.get("/api/products", async (req, res) => {
   try {
     // CRITICAL: Ensure the DB is connected before calling .find()
@@ -89,43 +81,25 @@ app.get("/api/products", async (req, res) => {
   }
 });
 
+// This is the route AuthContext calls to verify the token on refresh
+app.get("/api/me", authenticateToken, async (req, res) => {
+  try {
+    await dbConnect();
+    // req.user.id comes from the decoded JWT in your middleware
+    const user = await User.findById(req.user.id).select("-password");
+    
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json({ user });
+  } catch (error) {
+    console.error("Verify Route Error:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
 // route for handling signup
-// app.post("/register", [
-//   // Validation Middleware
-//   body('email').isEmail().withMessage('Enter a valid email'),
-//   body('password').isLength({ min: 6 }).withMessage('Password must be 6+ chars'),
-//   body('firstName').notEmpty().withMessage('First name is required')
-// ], async (req, res) => {
-  
-//   // 1. Check for validation errors
-//   const errors = validationResult(req);
-//   if (!errors.isEmpty()) {
-//     return res.status(400).json({ errors: errors.array() });
-//   }
-
-//   const { firstName, lastName, email, password } = req.body;
-
-//   try {
-//     // 2. Check if user already exists
-//     const existingUser = await userModel.findOne({ email });
-//     if (existingUser) return res.status(400).json({ message: "Email already in use" });
-
-//     // 3. Hash Password & Save
-//     const hashedPassword = await bcrypt.hash(password, 10);
-//     const newUser = await userModel.create({
-//       name: `${firstName} ${lastName}`,
-//       email,
-//       password: hashedPassword
-//     });
-
-//     // 4. Generate Token (using your existing setUser function)
-//     const token = setUser(newUser);
-//     res.status(201).json({ token, message: "User created successfully" });
-
-//   } catch (err) {
-//     res.status(500).json({ message: "Server error" });
-//   }
-// });
 app.post("/register", async (req, res) => {
   try {
     // Ensure the DB is connected before calling .find()
@@ -173,6 +147,43 @@ app.post("/register", async (req, res) => {
 
   } catch (error) {
     console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+// route for handling login
+app.post("/login", async (req, res) => {
+  try {
+    await dbConnect(); // Crucial for Vercel!
+    const { email, password } = req.body;
+    console.log("1. Raw Body:", req.body);
+
+    // 1. Check if user exists
+    const user = await User.findOne({ email: email.trim().toLowerCase() });
+    console.log("2. User found in DB:", user ? "YES" : "NO");
+    if (!user) {
+      return res.status(401).json({ message: "Invalid email or password" });
+    }
+    console.log("3. Password Match:", user.password === password ? "YES" : "NO");
+
+    // 2. Check password 
+    // (Note: Since you skipped bcrypt for now, we check the raw string)
+    if (user.password !== password) {
+      return res.status(401).json({ message: "Invalid email or password" });
+    }
+
+    // 3. Generate JWT using your setUser helper
+    const token = setUser(user);
+
+    // 4. Send response
+    res.json({
+      success: true,
+      token,
+      user: { id: user._id, email: user.email }
+    });
+
+  } catch (error) {
+    console.error("Login backend error:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });

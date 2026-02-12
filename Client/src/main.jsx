@@ -1,4 +1,4 @@
-import { StrictMode } from 'react'
+import { createContext, StrictMode, useState, useEffect, useContext } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter , RouterProvider} from 'react-router-dom'
 import './index.css'
@@ -13,6 +13,7 @@ import Account from './components/Pages/Account/Account.jsx'
 import { NavUser } from './components/nav-user'
 import { SidebarProvider } from './components/ui/sidebar'
 import Dashboard from './components/Admin/Dashboard/Dashboard.jsx'
+import { AuthProvider } from './context/AuthContext'
 
 // import './components/styles/font-awesome.min.css'
 
@@ -48,7 +49,10 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <AuthProvider>    
     <RouterProvider router={router}/>
+    </AuthProvider>
     {/* <App /> */}
   </StrictMode>,
 )
+

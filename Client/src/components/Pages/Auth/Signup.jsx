@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 
+// 1. Import the hook at the top
+import { useAuth } from '@/context/AuthContext';
+
+
 const Signup = ({ isOpen, onClose, openLogin }) => {
+  // 2. Inside your component
+  const { login } = useAuth();
   if (!isOpen) return null;
 
   // ... inside your component
@@ -31,8 +37,11 @@ const Signup = ({ isOpen, onClose, openLogin }) => {
     const data = await response.json();
     if (response.ok) {
       // create notification here in future
+      // console.log(data.token)
       alert("Account Created Successfully!");
       localStorage.setItem("token", data.token);
+      // It sets the user in AuthContext, which makes the Navbar re-render instantly.
+      login(data.user, data.token);
       onClose();
     } else {
       alert(data.message || "Registration failed");

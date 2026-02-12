@@ -15,6 +15,8 @@ import shop3 from '../../../assets/images/shop03.png'
 
 import {ArrowRightCircleFill} from "react-bootstrap-icons"
 
+import { useAuth } from '@/context/AuthContext'
+
 import { useState, useEffect } from 'react';
 import { StarFill, Heart, Shuffle, Eye, CartDash } from 'react-bootstrap-icons';
 
@@ -29,26 +31,38 @@ const Homepage = () => {
   ];
 
   const [products, setProducts] = useState([]);
+  const { user, loading } = useAuth(); // Get 'loading' from context
     // const storeId = "65b2f1a5e4b0a1a2b3c4d5e6"; // Replace with dynamic ID later
+ // Re-run once 'loading' becomes false
+ useEffect(() => {
+  const fetchProducts = async () => {
+    // 1. ONLY wait for loading. We want to fetch even if !token (for guests)
+    if (loading) return;
 
-    useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                // const response = await fetch(`http://localhost:3000/api/products`);
-                // To this:
-                const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
-                const res = await fetch(`${API_URL}/api/products`);
-                const data = await res.json();
-                setProducts(data.products);
-                console.log(data);
-                
-            } catch (error) {
-                console.error("Error fetching products:", error);
-            }
-        };
+    try {
+      const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+      
+      // 2. Prepare headers (optional: send token ONLY if it exists)
+      const token = localStorage.getItem("token");
+      const headers = { "Content-Type": "application/json" };
+      if (token) headers["Authorization"] = `Bearer ${token}`;
 
-        fetchProducts();
-    }, []);
+      const response = await fetch(`${API_URL}/api/products`, { headers });
+      
+      const data = await response.json();
+      
+      if (response.ok) {
+        setProducts(data.products);
+      } else {
+        console.error("Server Error:", data.message);
+      }
+    } catch (err) {
+      console.error("Fetch products error:", err);
+    }
+  };
+
+  fetchProducts();
+}, [loading]); // Keep [loading] so it fires once Auth is initialized
   return (
     <div>
       {/* NAVIGATION */}
