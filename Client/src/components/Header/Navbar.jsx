@@ -143,7 +143,7 @@ const Navbar = ({ onCartToggle }) => {
               </div>
 
               <div className="relative group flex flex-col items-center cursor-pointer" onClick={(e) => {
-        console.log("Cart clicked!"); // Debugging: Check your console (F12)
+         // Debugging: Check your console (F12)
         onCartToggle(); 
       }}>
                 <Cart3 size={18} className="md:size-/[20px]"/>

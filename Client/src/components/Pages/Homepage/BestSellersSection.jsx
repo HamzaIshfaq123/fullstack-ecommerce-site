@@ -5,15 +5,28 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { ChevronLeft, ChevronRight } from 'react-bootstrap-icons'; // Or use your template arrows
 import { Link } from 'react-router-dom';
+import { useAuth } from '@/context/AuthContext';
 
 const BestSellersSection = () => {
     const [products, setProducts] = useState([]);
-    const [loading, setLoading] = useState(true);
+    // const [loading, setLoading] = useState(true);
+    const { user, loading } = useAuth(); // Get 'loading' from context
+    
 
     useEffect(() => {
         const getTopSelling = async () => {
+            // 1. ONLY wait for loading. We want to fetch even if !token (for guests)
+        if (loading) return;
             try {
-                const response = await fetch('http://localhost:3000/api/products/top-selling');
+                // 2. Use Environment Variable for the base URL
+                const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+                const response = await fetch(`${API_URL}/api/products/top-selling`, {
+                method: 'GET',
+                headers: {
+                "Content-Type": "application/json"
+                // Add Authorization header here if top-selling requires a token
+                },
+                });
                 
                 // Fetch doesn't throw error on 404/500, so we check manually
                 if (!response.ok) {
@@ -25,12 +38,12 @@ const BestSellersSection = () => {
             } catch (error) {
                 console.error("Fetch error:", error);
             } finally {
-                setLoading(false);
+                // setLoading(false);
             }
         };
 
         getTopSelling();
-    }, []);
+    }, [loading]);
 
     // product widget for the vertically displayed items
     const ProductWidgetColumn = ({ title, data }) => {
