@@ -212,6 +212,7 @@ app.post("/login", async (req, res) => {
 // GET /api/products/:id
 app.get('/api/products/:id', async (req, res) => {
     try {
+        await dbConnect(); // Force wait for DB connection
         const { id } = req.params;
 
         // Find the specific product and join the category data
