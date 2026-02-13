@@ -62,13 +62,17 @@ app.use(
 //   }
 // });
 
-// Fetch all Products
+// Fetch new Products for NewArrivalsSection.jsx
 app.get("/api/products", async (req, res) => {
   try {
     // CRITICAL: Ensure the DB is connected before calling .find()
         await dbConnect(); // Force wait for DB connection
     // .find({}) is the MongoDB equivalent of "SELECT * FROM users"
-    const results = await Product.find({}); 
+    // const results = await Product.find({}); 
+    // Fetch only products marked as new, sorted by newest date
+    const results = await Product.find({ is_new: true })
+                    .sort({ created_at: -1 }) 
+                    .limit(8); // Limit to 8 items for the UI grid
     
     // Send JSON response
     res.json({ products: results }); 
@@ -79,6 +83,22 @@ app.get("/api/products", async (req, res) => {
     console.error("Error fetching products:", err);
     res.status(500).json({ error: "Database error" });
   }
+});
+
+// Fetch top selling products for BestSellersSection.jsx
+// Inside your server.js or routes file
+app.get('/api/products/top-selling', async (req, res) => {
+    try {
+        // Query: Find all, sort by sales_count descending, take first 8
+        const topSellingProducts = await Product.find({})
+            .sort({ sales_count: -1 }) 
+            .limit(8);
+
+        res.status(200).json(topSellingProducts);
+    } catch (error) {
+        console.error("Error fetching top selling products:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
 });
 
 // This is the route AuthContext calls to verify the token on refresh
@@ -186,6 +206,29 @@ app.post("/login", async (req, res) => {
     console.error("Login backend error:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
+});
+
+// GET /api/products/:id
+app.get('/api/products/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Find the specific product and join the category data
+        const product = await Product.findById(id).populate('category');
+
+        if (!product) {
+            return res.status(404).json({ message: "Product not found" });
+        }
+
+        res.status(200).json(product);
+    } catch (error) {
+        // Handle invalid ObjectIDs (e.g., if the ID string is the wrong length)
+        if (error.kind === 'ObjectId') {
+            return res.status(400).json({ message: "Invalid Product ID format" });
+        }
+        console.error("Error fetching product details:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
 });
 
 // commenting this old line for local env out

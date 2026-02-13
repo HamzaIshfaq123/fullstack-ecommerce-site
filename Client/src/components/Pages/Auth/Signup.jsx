@@ -68,7 +68,7 @@ const Signup = ({ isOpen, onClose, openLogin }) => {
           <input type="email" name="email" onChange={handleChange} placeholder="Email Address" className="border-b border-gray-300 py-2 focus:border-black outline-none transition-all text-sm" value={formData.email}/>
           <input type="password" name="password" onChange={handleChange} placeholder="Password" className="border-b border-gray-300 py-2 focus:border-black outline-none transition-all text-sm" value={formData.password}/>
           
-          <button type='submit' className="bg-black text-white py-3 mt-4 text-xs tracking-[0.2em] uppercase hover:bg-zinc-800 transition-colors">
+          <button type='submit' className="bg-black text-white py-3 mt-4 text-xs tracking-[0.2em] uppercase hover:bg-zinc-800 transition-colors cursor-pointer">
             Create Account
           </button>
         </form>

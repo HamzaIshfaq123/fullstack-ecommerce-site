@@ -6,7 +6,7 @@ import App from './App.jsx'
 import Store from './components/Pages/Store/Store.jsx'
 import Navbar from './components/Header/Navbar.jsx'
 import Footer from './components/Footer/Footer.jsx'
-import Homepage from './components/Pages/Homepage/Homepage.jsx'
+// import Homepage from './components/Pages/Homepage/Homepage.jsx'
 import Checkout from './components/Pages/Checkout/Checkout.jsx'
 import Layout from './components/Layout/Layout.jsx'
 import Account from './components/Pages/Account/Account.jsx'
@@ -14,6 +14,12 @@ import { NavUser } from './components/nav-user'
 import { SidebarProvider } from './components/ui/sidebar'
 import Dashboard from './components/Admin/Dashboard/Dashboard.jsx'
 import { AuthProvider } from './context/AuthContext'
+import NewArrivalsSection from './components/Pages/Homepage/NewArrivalsSection'
+import BestSellersSection from './components/Pages/Homepage/BestSellersSection'
+
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import ProductDetails from './components/Pages/Product/ProductDetails'
 
 // import './components/styles/font-awesome.min.css'
 
@@ -24,7 +30,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Homepage />
+        element: <><NewArrivalsSection /><BestSellersSection /></>
       },
       {
         path: '/store',
@@ -38,6 +44,10 @@ const router = createBrowserRouter([
         path: '/account',
         element: <Account />
       },
+      {
+        path: "/product/:id",
+        element: <ProductDetails/>
+      }
     ],
   },
     {

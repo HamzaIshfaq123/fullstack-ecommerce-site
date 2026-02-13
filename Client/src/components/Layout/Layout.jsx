@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Navbar from '../Header/Navbar';
 import Footer from '../Footer/Footer';
 import Cart from '../Pages/Cart/Cart';
+import WhatsAppWidget from '../Pages/Widget/WhatsappWidget';
 
 const Layout = () => {
 const [isCartOpen, setIsCartOpen] = useState(false);  // cart toggle
@@ -19,7 +20,7 @@ const [isCartOpen, setIsCartOpen] = useState(false);  // cart toggle
       <main>
         <Outlet />
       </main>
-
+      <WhatsAppWidget/>
       <Footer />
     </>
   );

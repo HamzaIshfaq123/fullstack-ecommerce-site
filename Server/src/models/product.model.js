@@ -9,11 +9,14 @@ const productSchema = new mongoose.Schema({
         index: true // Crucial for performance
     },
     name: { type: String, required: true, trim: true },
-    category: { type: String, required: true },
+    category: { type: mongoose.Schema.Types.ObjectId,
+  ref: 'Category', // This must match the model name in Category.js
+  required: true },
     price: { type: Number, required: true },
     old_price: { type: Number },
     discount_pct: { type: Number },
     is_new: { type: Boolean, default: false },
+    sales_count: { type: Number, default: 0 },
     rating: { type: Number, default: 5, min: 1, max: 5 },
     images: [{ type: String }], // Array for multiple images
     stock: { type: Number, default: 0 },

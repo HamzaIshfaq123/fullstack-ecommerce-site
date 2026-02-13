@@ -61,7 +61,7 @@ const Login = ({ isOpen, onClose, openSignup }) => {
           <input type="email" name="email" placeholder="Email Address" required onChange={handleChange} className="border-b border-gray-300 py-2 focus:border-black outline-none transition-all text-sm" />
           <input type="password" name="password" placeholder="Password" required onChange={handleChange} className="border-b border-gray-300 py-2 focus:border-black outline-none transition-all text-sm" />
           
-          <button disabled={loading} className="bg-black text-white py-3 mt-4 text-xs tracking-[0.2em] uppercase hover:bg-zinc-800 transition-colors">
+          <button disabled={loading} className="bg-black text-white py-3 mt-4 text-xs tracking-[0.2em] uppercase hover:bg-zinc-800 transition-colors cursor-pointer">
             {loading ? "Verifying..." : "Sign In"}
           </button>
         </form>
