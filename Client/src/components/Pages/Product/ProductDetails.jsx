@@ -10,10 +10,30 @@ const ProductDetails = () => {
 
   // Fetch product data based on ID
   useEffect(() => {
-    fetch(`http://localhost:3000/api/products/${id}`)
-      .then(res => res.json())
-      .then(data => setProduct(data));
-  }, [id]);
+  const fetchProductDetails = async () => {
+    try {
+      // 1. Use the environment variable with the fallback
+      const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+      
+      const res = await fetch(`${API_URL}/api/products/${id}`);
+      
+      // 2. Check if the product actually exists
+      if (!res.ok) {
+        throw new Error("Product not found");
+      }
+
+      const data = await res.json();
+      setProduct(data);
+    } catch (err) {
+      console.error("Error fetching product:", err);
+      // Optional: set an error state here to show a "Product not found" UI
+    }
+  };
+
+  if (id) {
+    fetchProductDetails();
+  }
+}, [id]);
 
   if (!product) return <div className="p-20 text-center">Loading...</div>;
 
