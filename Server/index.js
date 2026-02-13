@@ -89,6 +89,7 @@ app.get("/api/products", async (req, res) => {
 // Inside your server.js or routes file
 app.get('/api/products/top-selling', async (req, res) => {
     try {
+        await dbConnect(); // Force wait for DB connection
         // Query: Find all, sort by sales_count descending, take first 8
         const topSellingProducts = await Product.find({})
             .sort({ sales_count: -1 }) 
