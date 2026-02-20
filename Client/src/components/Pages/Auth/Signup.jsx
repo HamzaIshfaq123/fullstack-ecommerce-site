@@ -4,6 +4,7 @@ import { createPortal } from 'react-dom';
 // 1. Import the hook at the top
 import { useAuth } from '@/context/AuthContext';
 
+import { toast } from 'sonner';
 
 const Signup = ({ isOpen, onClose, openLogin }) => {
   // 2. Inside your component
@@ -19,6 +20,12 @@ const Signup = ({ isOpen, onClose, openLogin }) => {
 
   const handleSubmit = async (e) => {
   e.preventDefault();
+
+  // This check looks at minLength, type="email", etc.
+  if (!e.currentTarget.checkValidity()) {
+    e.currentTarget.reportValidity(); // This forces the browser "bubble" to show
+    return; // Stop the function here
+  }
   
   try{
     const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
@@ -32,19 +39,23 @@ const Signup = ({ isOpen, onClose, openLogin }) => {
     const contentType = response.headers.get("content-type");
     if (!contentType || !contentType.includes("application/json")) {
       throw new Error("Server didn't send JSON. Is the backend down?");
+      toast.error("Server Issue");
     }
     
     const data = await response.json();
     if (response.ok) {
       // create notification here in future
       // console.log(data.token)
-      alert("Account Created Successfully!");
+
+      toast.success("Account created successfully.");
+      
       localStorage.setItem("token", data.token);
       // It sets the user in AuthContext, which makes the Navbar re-render instantly.
       login(data.user, data.token);
       onClose();
     } else {
-      alert(data.message || "Registration failed");
+      // alert(data.message || "Registration failed");
+      toast.error("Registration failed");
     }
   } catch(error){
     console.error("Network Error:", error);
@@ -62,13 +73,13 @@ const Signup = ({ isOpen, onClose, openLogin }) => {
         
         <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
           <div className="flex gap-2">
-            <input type="text" name="first_name" onChange={handleChange} placeholder="First Name" className="w-1/2 border-b border-gray-300 py-2 focus:border-black outline-none transition-all text-sm" value={formData.first_name} />
-            <input type="text" placeholder="Last Name" name="last_name" onChange={handleChange} className="w-1/2 border-b border-gray-300 py-2 focus:border-black outline-none transition-all text-sm" value={formData.last_name} />
+            <input type="text" required name="first_name" onChange={handleChange} placeholder="First Name" className="w-1/2 border-b border-gray-300 py-2 focus:border-black outline-none transition-all text-sm" value={formData.first_name} />
+            <input type="text" required placeholder="Last Name" name="last_name" onChange={handleChange} className="w-1/2 border-b border-gray-300 py-2 focus:border-black outline-none transition-all text-sm" value={formData.last_name} />
           </div>
-          <input type="email" name="email" onChange={handleChange} placeholder="Email Address" className="border-b border-gray-300 py-2 focus:border-black outline-none transition-all text-sm" value={formData.email}/>
-          <input type="password" name="password" onChange={handleChange} placeholder="Password" className="border-b border-gray-300 py-2 focus:border-black outline-none transition-all text-sm" value={formData.password}/>
+          <input type="email" required name="email" onChange={handleChange} placeholder="Email Address" className="border-b border-gray-300 py-2 focus:border-black outline-none transition-all text-sm" value={formData.email}/>
+          <input type="password" name="password" onChange={handleChange} placeholder="Password" required minLength={8} className="border-b border-gray-300 py-2 focus:border-black outline-none transition-all text-sm" value={formData.password}/>
           
-          <button type='submit' className="bg-black text-white py-3 mt-4 text-xs tracking-[0.2em] uppercase hover:bg-zinc-800 transition-colors cursor-pointer">
+          <button type="submit" className="bg-black text-white py-3 mt-4 text-xs tracking-[0.2em] uppercase hover:bg-zinc-800 transition-colors cursor-pointer">
             Create Account
           </button>
         </form>

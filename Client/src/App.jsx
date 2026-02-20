@@ -14,6 +14,8 @@ import "tailwindcss";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+// import { ToastContainer, toast } from 'react-toastify';
+
 // bootstrap for font awesome
 // import 'bootstrap/dist/css/bootstrap.min.css';
 // import 'bootstrap/dist/js/bootstrap.bundle.min'; 
@@ -31,6 +33,7 @@ function App() {
       <Navbar/>
       {/* <Homepage/> */}
       <Store/>
+      {/* <ToastContainer /> */}
       {/* <Checkout/> */}
       <Footer/>
     </>

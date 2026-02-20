@@ -11,7 +11,8 @@ import { Link } from 'react-router-dom'
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import Login from '../Pages/Auth/Login';
 import Signup from '../Pages/Auth/Signup';
-import { useAuth } from '@/context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
+
 
 const Navbar = ({ onCartToggle }) => {
     const [authModalType, setAuthModalType] = useState(null); // 'login', 'signup', or null
@@ -33,6 +34,7 @@ const Navbar = ({ onCartToggle }) => {
   return (
     <>
      <header className="font-sans w-full">
+      
       {/* 1. TOP HEADER - Responsive Grid */}
       <div className="bg-[#15161D] py-2 border-b border-[#2B2D33]">
         <div className="container mx-auto px-4 flex flex-col sm:flex-row justify-between items-center text-[10px] md:text-[12px] text-white gap-2">

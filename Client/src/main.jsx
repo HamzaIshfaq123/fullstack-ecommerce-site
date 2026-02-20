@@ -1,4 +1,4 @@
-import { createContext, StrictMode, useState, useEffect, useContext } from 'react'
+import { createContext, StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter , RouterProvider} from 'react-router-dom'
 import './index.css'
@@ -20,7 +20,8 @@ import BestSellersSection from './components/Pages/Homepage/BestSellersSection'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import ProductDetails from './components/Pages/Product/ProductDetails'
-
+import { Toaster, toast } from 'sonner';
+import 'react-toastify/dist/ReactToastify.css';
 // import './components/styles/font-awesome.min.css'
 
 const router = createBrowserRouter([
@@ -59,6 +60,9 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <Toaster 
+        position="top-right" duration={3000} visibleToasts={5} richColors hideProgressBar={false} pauseOnHover closeOnClick expand={false} closeButton
+      />
     <AuthProvider>    
     <RouterProvider router={router}/>
     </AuthProvider>

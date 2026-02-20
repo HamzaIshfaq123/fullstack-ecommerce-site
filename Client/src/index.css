@@ -1,1 +1,79 @@
 @import "tailwindcss";
+
+/* 1. BASE TOAST STYLES */
+[data-sonner-toast] {
+  font-family: 'Montserrat', sans-serif !important;
+  overflow: hidden !important;
+  border-radius: 8px !important;
+  padding: 16px !important;
+  position: relative !important;
+}
+
+/* 2. SUCCESS STATE (Green) */
+[data-sonner-toast][data-type="success"] {
+  background-color: #28a745 !important;
+  color: #ffffff !important;
+  border-color: #218838 !important;
+}
+
+/* 3. ERROR STATE (Your Brand Red) */
+[data-sonner-toast][data-type="error"] {
+  background-color: #D10024 !important;
+  color: #ffffff !important;
+  border-color: #a3001b !important;
+}
+
+/* Ensure icons are white for both states */
+[data-sonner-toast][data-type="success"] [data-icon],
+[data-sonner-toast][data-type="error"] [data-icon] {
+  color: #ffffff !important;
+}
+
+/* 4. THE PROGRESS BAR LOGIC */
+/* We create a pseudo-element that acts as the loading bar */
+[data-sonner-toast][data-type="success"]::after,
+[data-sonner-toast][data-type="error"]::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.7); /* Semi-transparent white bar */
+  width: 100%;
+  
+  /* Matches your Toaster duration={3000} */
+  animation: sonner-progress 3s linear forwards;
+}
+
+/* The Animation: Shrinking from Full to Zero */
+@keyframes sonner-progress {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+/* 5. LOADING/PENDING STATE (No progress bar here) */
+[data-sonner-toast][data-type="loading"] {
+  background-color: #1a1a1a !important;
+  color: #ffffff !important;
+  border-color: #333333 !important;
+}
+
+[data-sonner-toast][data-type="loading"]::after {
+  display: none !important;
+}
+
+/* Style the close button 'X' */
+[data-sonner-toast] [data-close-button] {
+  left: unset !important; /* Remove the default left position */
+  right: 8px !important;  /* Push it to the right */
+  top: 22px !important;    /* Align it with the top */
+  background: rgba(0, 0, 0, 0.2) !important; /* Slight dark circle background */
+  color: #ffffff !important;
+  border: none !important;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}

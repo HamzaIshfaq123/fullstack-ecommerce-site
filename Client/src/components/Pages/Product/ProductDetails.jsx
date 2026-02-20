@@ -4,6 +4,20 @@ import { Heart, Telephone, Whatsapp } from 'react-bootstrap-icons';
 import WhatsAppWidget from '../Widget/WhatsappWidget';
 
 const ProductDetails = () => {
+
+    const handleAddToCart = async () => {
+  const token = localStorage.getItem("token");
+
+  // 1. Guest Check
+  if (!token) {
+    alert("Please sign in to add items to your cart.");
+    // You can navigate to login or open a login modal here
+    return;
+  }else{
+    alert("added to cart")
+  }
+}
+
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [selectedQty, setSelectedQty] = useState('1 PC');
@@ -91,10 +105,10 @@ const ProductDetails = () => {
             </div>
 
             <div className="space-y-3 mb-8">
-              <button className="w-full border-2 border-[#D10024] text-[#D10024] font-bold py-3 rounded hover:bg-gray-50 transition-colors uppercase tracking-wider">
+              <button onClick={handleAddToCart} className="w-full border-2 border-[#D10024] text-[#D10024] font-bold py-3 rounded hover:bg-[#D10024] hover:text-white cursor-pointer transition-colors uppercase tracking-wider">
                 Add to cart
               </button>
-              <button className="w-full bg-[#D10024] text-white font-bold py-3 rounded hover:bg-[#D10024] transition-colors uppercase tracking-wider">
+              <button className="w-full bg-[#D10024] text-white font-bold py-3 rounded hover:bg-[#D10024] cursor-pointer transition-colors uppercase tracking-wider">
                 Buy it now
               </button>
             </div>

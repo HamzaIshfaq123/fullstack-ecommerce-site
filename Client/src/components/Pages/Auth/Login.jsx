@@ -2,7 +2,9 @@ import React, {useState} from 'react';
 import { createPortal } from 'react-dom';
 
 // 1. Import the hook at the top
-import { useAuth } from '@/context/AuthContext';
+import { useAuth } from '../../../context/AuthContext';
+
+import { toast } from 'sonner';
 
 
 const Login = ({ isOpen, onClose, openSignup }) => {
@@ -20,6 +22,7 @@ const Login = ({ isOpen, onClose, openSignup }) => {
     e.preventDefault();
     setLoading(true);
     
+    
     try {
       const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
       const response = await fetch(`${API_URL}/login`, {
@@ -31,15 +34,19 @@ const Login = ({ isOpen, onClose, openSignup }) => {
       const data = await response.json();
 
       if (response.ok) {
-        console.log(data.token);
+        // console.log(data.token);
         localStorage.setItem("token", data.token); // Store the "Passport"
-        alert("Login Successful!");
+        // alert("Login Successful!");
+        toast.success("Login Successful! Welcome back.");
+        
         onClose();
         // It sets the user in AuthContext, which makes the Navbar re-render instantly.
         login(data.user, data.token);
+        // return toast("Wow so easy!");
         // window.location.reload(); // Optional: Refresh to update UI (like Navbar)
       } else {
-        alert(data.message || "Invalid Credentials");
+        // alert(data.message || "Invalid Credentials");
+        toast.error("Invalid email or password. Please try again");
       }
     } catch (error) {
       console.error("Login error:", error);

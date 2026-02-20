@@ -5,6 +5,8 @@ import shop1 from '/images/shop01.png'
 import shop2 from '/images/shop02.png'
 import shop3 from '/images/shop03.png'
 
+import { toast } from 'sonner';
+
 import { Link } from 'react-router-dom';
 
 import {ArrowRightCircleFill} from "react-bootstrap-icons"
@@ -25,6 +27,10 @@ const NewArrivalsSection = () => {
         // const storeId = "65b2f1a5e4b0a1a2b3c4d5e6"; // Replace with dynamic ID later
      // Re-run once 'loading' becomes false
      useEffect(() => {
+      // 1. Create a "placeholder" toast and store its ID
+      // const toastId = toast.loading("Verifying credentials...");
+      // 2. DISMISS the loading and show SUCCESS
+      // toast.success("Login Successful!", { id: toastId });
       const fetchProducts = async () => {
         // 1. ONLY wait for loading. We want to fetch even if !token (for guests)
         if (loading) return;
