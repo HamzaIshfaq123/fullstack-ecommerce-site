@@ -6,16 +6,16 @@ import WhatsAppWidget from '../Widget/WhatsappWidget';
 const ProductDetails = () => {
 
     const handleAddToCart = async () => {
-  const token = localStorage.getItem("token");
+//   // const token = localStorage.getItem("token");
 
-  // 1. Guest Check
-  if (!token) {
-    alert("Please sign in to add items to your cart.");
-    // You can navigate to login or open a login modal here
-    return;
-  }else{
+//   // 1. Guest Check
+//   if (!token) {
+//     alert("Please sign in to add items to your cart.");
+//     // You can navigate to login or open a login modal here
+//     return;
+//   }else{
     alert("added to cart")
-  }
+//   }
 }
 
   const { id } = useParams();

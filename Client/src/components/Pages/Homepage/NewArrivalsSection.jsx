@@ -39,11 +39,15 @@ const NewArrivalsSection = () => {
           const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
           
           // 2. Prepare headers (optional: send token ONLY if it exists)
-          const token = localStorage.getItem("token");
+          // const token = localStorage.getItem("token");
           const headers = { "Content-Type": "application/json" };
-          if (token) headers["Authorization"] = `Bearer ${token}`;
+          // if (token) headers["Authorization"] = `Bearer ${token}`;
     
-          const response = await fetch(`${API_URL}/api/products`, { headers });
+          // 2. Simple fetch - No manual headers needed for the token!
+          const response = await fetch(`${API_URL}/api/products`, { 
+            method: "GET",
+            credentials: "include" // This sends the cookie to the server automatically
+          });
           
           const data = await response.json();
           

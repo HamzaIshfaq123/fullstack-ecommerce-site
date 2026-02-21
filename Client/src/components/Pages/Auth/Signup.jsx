@@ -21,10 +21,23 @@ const Signup = ({ isOpen, onClose, openLogin }) => {
   const handleSubmit = async (e) => {
   e.preventDefault();
 
-  // This check looks at minLength, type="email", etc.
-  if (!e.currentTarget.checkValidity()) {
-    e.currentTarget.reportValidity(); // This forces the browser "bubble" to show
-    return; // Stop the function here
+  // 1. Clean and Validate Data
+  const firstName = formData.first_name.trim();
+  const lastName = formData.last_name.trim();
+  const email = formData.email.trim();
+  const password = formData.password;
+
+  // 2. Manual Validation (Sonner Red Toasts)
+  if (!firstName || !lastName) {
+    return toast.error("Please enter a valid name (no empty spaces)");
+  }
+  
+  if (!email || !email.includes("@")) {
+    return toast.error("Please enter a valid email address");
+  }
+
+  if (password.length < 8) {
+    return toast.error("Password must be at least 8 characters");
   }
   
   try{
@@ -33,33 +46,31 @@ const Signup = ({ isOpen, onClose, openLogin }) => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
+      credentials: 'include' // MUST have this to receive the cookie!
     });
     
     // Check if the response is actually JSON before parsing
     const contentType = response.headers.get("content-type");
     if (!contentType || !contentType.includes("application/json")) {
-      throw new Error("Server didn't send JSON. Is the backend down?");
       toast.error("Server Issue");
+      throw new Error("Server didn't send JSON. Is the backend down?");
     }
     
     const data = await response.json();
     if (response.ok) {
-      // create notification here in future
-      // console.log(data.token)
-
-      toast.success("Account created successfully.");
-      
-      localStorage.setItem("token", data.token);
+      // localStorage.setItem("token", data.token);
       // It sets the user in AuthContext, which makes the Navbar re-render instantly.
-      login(data.user, data.token);
+      // 1. Update Global Auth State
+      login(data.user);
+      // 2. Feedback
+      toast.success("Account created successfully.");
+      // 3. Close Modal
       onClose();
     } else {
-      // alert(data.message || "Registration failed");
       toast.error("Registration failed");
     }
   } catch(error){
-    console.error("Network Error:", error);
-    alert("Could not connect to the server. Please check your internet.");
+    toast.error("Could not connect to the server. Please check your internet connection.");
   }
 };
 

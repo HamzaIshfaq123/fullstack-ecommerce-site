@@ -1,9 +1,14 @@
 const jwt = require('jsonwebtoken');
 
 const authenticateToken = (req, res, next) => {
-  // 1. Get token from the "Authorization" header (Format: Bearer <token>)
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
+  // Extra safety check: ensures req.cookies exists
+  if (!req.cookies) {
+    console.error("Cookie-parser is not initialized!");
+    return res.status(500).json({ message: "Server Configuration Error" });
+  }
+
+  // 1. Get token from the cookies directly
+  const token = req.cookies.token;
 
   if (!token) return res.status(401).json({ message: "Access Denied: No Token Provided" });
 

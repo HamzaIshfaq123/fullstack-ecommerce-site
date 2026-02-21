@@ -29,19 +29,22 @@ const Login = ({ isOpen, onClose, openSignup }) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
+        credentials: 'include' // REQUIRED: Tells browser to accept the cookie
       });
 
       const data = await response.json();
 
       if (response.ok) {
+        // setUser(data.user);
+        // setIsLoggedIn(true);
         // console.log(data.token);
-        localStorage.setItem("token", data.token); // Store the "Passport"
+        // localStorage.setItem("token", data.token); // Store the "Passport"
         // alert("Login Successful!");
+        login(data.user);
         toast.success("Login Successful! Welcome back.");
         
         onClose();
         // It sets the user in AuthContext, which makes the Navbar re-render instantly.
-        login(data.user, data.token);
         // return toast("Wow so easy!");
         // window.location.reload(); // Optional: Refresh to update UI (like Navbar)
       } else {

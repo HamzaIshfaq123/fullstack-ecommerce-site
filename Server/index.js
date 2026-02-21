@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require("express");
+const cookieParser = require('cookie-parser');
 const dbConnect = require("./src/config/db");
 const User = require("./src/models/user.model"); // Import to use in routes
 const Product = require("./src/models/product.model")
@@ -18,6 +19,12 @@ const authenticateToken = require("./src/middlewares/auth")
 dbConnect(); // Execute the connection
 
 app.use(express.json());
+
+app.use(cookieParser());
+app.use((req, res, next) => {
+  // console.log("Cookies present in request:", req.cookies);
+  next();
+});
 
 const cors = require("cors")
 
@@ -41,7 +48,8 @@ app.use(
         // Add your Vercel frontend URL here
         origin: ['http://localhost:5173', 'https://fullstack-ecommerce-site-drab.vercel.app'],
         methods: ["GET", "POST", "PUT", "DELETE"],
-        credentials: true
+        credentials: true,
+        allowedHeaders: ["Content-Type", "Authorization"]
     })
 );
 
@@ -67,8 +75,6 @@ app.get("/api/products", async (req, res) => {
   try {
     // CRITICAL: Ensure the DB is connected before calling .find()
         await dbConnect(); // Force wait for DB connection
-    // .find({}) is the MongoDB equivalent of "SELECT * FROM users"
-    // const results = await Product.find({}); 
     // Fetch only products marked as new, sorted by newest date
     const results = await Product.find({ is_new: true })
                     .sort({ created_at: -1 }) 
@@ -103,20 +109,36 @@ app.get('/api/products/top-selling', async (req, res) => {
 });
 
 // This is the route AuthContext calls to verify the token on refresh
-app.get("/api/me", authenticateToken, async (req, res) => {
+// 1. Remove 'authenticateToken' from the arguments
+app.get("/api/me", async (req, res) => {
   try {
-    await dbConnect();
-    // req.user.id comes from the decoded JWT in your middleware
-    const user = await User.findById(req.user.id).select("-password");
-    
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
+    // 2. Check for the token manually instead of using the middleware
+    const token = req.cookies.token;
+
+    // 3. SILENT EXIT: If no token, just say "user is null" with a 200 OK
+    // This stops the frontend from throwing a "Network Error" or 401
+    if (!token) {
+      return res.status(200).json({ user: null });
     }
 
+    // 4. If there IS a token, verify it
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    
+    await dbConnect();
+    const user = await User.findById(decoded.id).select("-password");
+
+    if (!user) {
+      // Token exists but user was deleted from DB
+      return res.status(200).json({ user: null });
+    }
+
+    // 5. Success!
     res.json({ user });
+
   } catch (error) {
-    console.error("Verify Route Error:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+    // If token is expired or fake, don't crash, just treat as guest
+    console.log("Token verification failed (Guest mode)");
+    res.status(200).json({ user: null });
   }
 });
 
@@ -160,9 +182,16 @@ app.post("/register", async (req, res) => {
     // 5. Generate JWT (Stateless Auth)
     const token = setUser(newUser);
 
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+      maxAge: 24 * 60 * 60 * 1000
+    });
+
     // 6. Send response (React will receive this)
     res.status(201).json({ 
-      token, 
+      success: true, 
       user: { id: newUser._id, email: newUser.email, } 
     });
 
@@ -177,15 +206,14 @@ app.post("/login", async (req, res) => {
   try {
     await dbConnect(); // Crucial for Vercel!
     const { email, password } = req.body;
-    console.log("1. Raw Body:", req.body);
 
     // 1. Check if user exists
     const user = await User.findOne({ email: email.trim().toLowerCase() });
-    console.log("2. User found in DB:", user ? "YES" : "NO");
+    // console.log("2. User found in DB:", user ? "YES" : "NO");
     if (!user) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
-    console.log("3. Password Match:", user.password === password ? "YES" : "NO");
+    // console.log("3. Password Match:", user.password === password ? "YES" : "NO");
 
     // 2. Check password 
     // (Note: Since you skipped bcrypt for now, we check the raw string)
@@ -197,16 +225,38 @@ app.post("/login", async (req, res) => {
     const token = setUser(user);
 
     // 4. Send response
-    res.json({
-      success: true,
-      token,
-      user: { id: user._id, email: user.email }
-    });
+    // res.json({
+    //   success: true,
+    //   token,
+    //   user: { id: user._id, email: user.email }
+    // });
+
+    res.cookie('token', token, {
+    httpOnly: true,     // 🔒 The most important part: JS can't touch this
+    secure: true,       // Only sends over HTTPS (Vercel uses HTTPS)
+    sameSite: 'none',   // Required if your Backend and Frontend are on different Vercel/Render domains
+    maxAge: 24 * 60 * 60 * 1000 // 1 day in milliseconds
+  });
+  // ... after res.cookie(...)
+  res.status(200).json({
+    success: true,
+    user: { id: user._id, name: user.name, email: user.email } 
+  });
 
   } catch (error) {
     console.error("Login backend error:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
+});
+
+app.post("/logout", (req, res) => {
+  res.cookie("token", "", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+    expires: new Date(0), // Sets expiration to the past to kill the cookie
+  });
+  res.status(200).json({ message: "Logged out successfully" });
 });
 
 // GET /api/products/:id
