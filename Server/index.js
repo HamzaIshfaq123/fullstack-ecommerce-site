@@ -5,6 +5,8 @@ const dbConnect = require("./src/config/db");
 const User = require("./src/models/user.model"); // Import to use in routes
 const Product = require("./src/models/product.model")
 
+const { loginLimiter, registerLimiter } = require('./src/middlewares/rateLimiters');
+
 const { body, validationResult } = require('express-validator');
 // const bcrypt = require('bcryptjs');
 
@@ -13,6 +15,9 @@ const bcrypt = require('bcryptjs');
 const { setUser } = require('./service/auth')
 
 const app = express();
+
+// Add this BEFORE your routes and limiters
+app.set('trust proxy', 1);
 
 const authenticateToken = require("./src/middlewares/auth")
 
@@ -143,7 +148,7 @@ app.get("/api/me", async (req, res) => {
 });
 
 // route for handling signup
-app.post("/register", async (req, res) => {
+app.post("/register", registerLimiter , async (req, res) => {
   try {
     // Ensure the DB is connected before calling .find()
     await dbConnect(); // Force wait for DB connection
@@ -202,7 +207,7 @@ app.post("/register", async (req, res) => {
 });
 
 // route for handling login
-app.post("/login", async (req, res) => {
+app.post("/login", loginLimiter , async (req, res) => {
   try {
     await dbConnect(); // Crucial for Vercel!
     const { email, password } = req.body;
