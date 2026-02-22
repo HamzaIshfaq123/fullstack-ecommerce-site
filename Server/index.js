@@ -173,15 +173,15 @@ app.post("/register", registerLimiter , async (req, res) => {
     }
 
     // 3. Hash the password -- lets avoid this for now because of vercel's unexpected behavior with this
-    // const salt = await bcrypt.genSalt(10);
-    // const hashedPassword = await bcrypt.hash(password, salt);
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
     // 4. Create User
     const newUser = await User.create({
       first_name: first_name.trim(),
       last_name: last_name.trim(),
       email: email.toLowerCase().trim(),
-      password: password
+      password: hashedPassword
     });
 
     // 5. Generate JWT (Stateless Auth)
@@ -221,8 +221,9 @@ app.post("/login", loginLimiter , async (req, res) => {
     // console.log("3. Password Match:", user.password === password ? "YES" : "NO");
 
     // 2. Check password 
-    // (Note: Since you skipped bcrypt for now, we check the raw string)
-    if (user.password !== password) {
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
