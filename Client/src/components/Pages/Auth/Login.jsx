@@ -49,7 +49,7 @@ const Login = ({ isOpen, onClose, openSignup }) => {
         // window.location.reload(); // Optional: Refresh to update UI (like Navbar)
       } else {
         // alert(data.message || "Invalid Credentials");
-        toast.error("Invalid email or password. Please try again");
+        toast.error(data.message || "Invalid email or password. Please try again");
       }
     } catch (error) {
       console.error("Login error:", error);

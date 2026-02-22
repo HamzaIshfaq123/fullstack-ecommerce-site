@@ -67,7 +67,7 @@ const Signup = ({ isOpen, onClose, openLogin }) => {
       // 3. Close Modal
       onClose();
     } else {
-      toast.error("Registration failed");
+      toast.error(data.message || "Registration failed");
     }
   } catch(error){
     toast.error("Could not connect to the server. Please check your internet connection.");
