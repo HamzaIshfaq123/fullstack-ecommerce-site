@@ -6,6 +6,8 @@ import { useAuth } from '@/context/AuthContext';
 
 import { toast } from 'sonner';
 
+import { signupSchema } from '../../../../validators/authSchema';
+
 const Signup = ({ isOpen, onClose, openLogin }) => {
   // 2. Inside your component
   const { login } = useAuth();
@@ -20,32 +22,25 @@ const Signup = ({ isOpen, onClose, openLogin }) => {
 
   const handleSubmit = async (e) => {
   e.preventDefault();
-
-  // 1. Clean and Validate Data
-  const firstName = formData.first_name.trim();
-  const lastName = formData.last_name.trim();
-  const email = formData.email.trim();
-  const password = formData.password;
-
-  // 2. Manual Validation (Sonner Red Toasts)
-  if (!firstName || !lastName) {
-    return toast.error("Please enter a valid name (no empty spaces)");
-  }
-  
-  if (!email || !email.includes("@")) {
-    return toast.error("Please enter a valid email address");
-  }
-
-  if (password.length < 8) {
-    return toast.error("Password must be at least 8 characters");
-  }
   
   try{
+    // 1. Zod Validation
+    const validation = signupSchema.safeParse(formData);
+    
+    if (!validation.success) {
+      // error messages
+      const errorMessage = validation.error?.issues?.[0]?.message || "Invalid input";
+      return toast.error(errorMessage);
+    }
+
+    // 2. extract the CLEANED data from Zod
+    const cleanedData = validation.data;
+
     const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
     const response = await fetch(`${API_URL}/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
+      body: JSON.stringify(cleanedData),
       credentials: 'include' // MUST have this to receive the cookie!
     });
     
@@ -58,8 +53,6 @@ const Signup = ({ isOpen, onClose, openLogin }) => {
     
     const data = await response.json();
     if (response.ok) {
-      // localStorage.setItem("token", data.token);
-      // It sets the user in AuthContext, which makes the Navbar re-render instantly.
       // 1. Update Global Auth State
       login(data.user);
       // 2. Feedback
@@ -70,6 +63,7 @@ const Signup = ({ isOpen, onClose, openLogin }) => {
       toast.error(data.message || "Registration failed");
     }
   } catch(error){
+    console.error("DEBUGGING ERROR:", error);
     toast.error("Could not connect to the server. Please check your internet connection.");
   }
 };

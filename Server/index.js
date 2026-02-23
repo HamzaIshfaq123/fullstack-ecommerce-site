@@ -1,22 +1,28 @@
 require('dotenv').config();
+
 const express = require("express");
+
 const cookieParser = require('cookie-parser');
+
 const dbConnect = require("./src/config/db");
-const User = require("./src/models/user.model"); // Import to use in routes
+
+const User = require("./src/models/user.model"); 
+
 const Product = require("./src/models/product.model")
 
 const { loginLimiter, registerLimiter } = require('./src/middlewares/rateLimiters');
 
 const { body, validationResult } = require('express-validator');
-// const bcrypt = require('bcryptjs');
 
 const jwt = require('jsonwebtoken');
+
 const bcrypt = require('bcryptjs');
+
 const { setUser } = require('./service/auth')
 
 const app = express();
 
-// Add this BEFORE your routes and limiters
+// This enables vercel to identify each device separately in rate-limiting
 app.set('trust proxy', 1);
 
 const authenticateToken = require("./src/middlewares/auth")
@@ -26,26 +32,13 @@ dbConnect(); // Execute the connection
 app.use(express.json());
 
 app.use(cookieParser());
+
 app.use((req, res, next) => {
   // console.log("Cookies present in request:", req.cookies);
   next();
 });
 
 const cors = require("cors")
-
-// Middleware to protect routes
-// const authenticateToken = (req, res, next) => {
-//     const token = req.header('Authorization')?.split(' ')[1];
-//     if (!token) return res.status(401).send('Access Denied');
-
-//     try {
-//         const verified = jwt.verify(token, process.env.JWT_SECRET);
-//         req.user = verified;
-//         next();
-//     } catch (err) {
-//         res.status(400).send('Invalid Token');
-//     }
-// };
 
 // new code for mongodb cluster
 app.use(
@@ -57,23 +50,6 @@ app.use(
         allowedHeaders: ["Content-Type", "Authorization"]
     })
 );
-
-// READ (Get all users)
-// app.get("/users", async (req, res) => {
-//   try {
-//     // .find({}) is the MongoDB equivalent of "SELECT * FROM users"
-//     const results = await User.find({}); 
-    
-//     // Send JSON response
-//     res.json({ users: results }); 
-    
-//     // Note: If you want to render an EJS page instead, use:
-//     // res.render("users", { users: results });
-//   } catch (err) {
-//     console.error("Error fetching users:", err);
-//     res.status(500).json({ error: "Database error" });
-//   }
-// });
 
 // Fetch new Products for NewArrivalsSection.jsx
 app.get("/api/products", async (req, res) => {
@@ -289,10 +265,6 @@ app.get('/api/products/:id', async (req, res) => {
     }
 });
 
-// commenting this old line for local env out
-//  app.listen(3000, () => console.log("Server running on port 3000"));
-
-// new code for vercel 
 // This allows local testing but won't crash on Vercel
 if (process.env.NODE_ENV !== 'production') {
     app.listen(3000, () => console.log("Server running on port 3000"));

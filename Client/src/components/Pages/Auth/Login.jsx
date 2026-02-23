@@ -6,6 +6,7 @@ import { useAuth } from '../../../context/AuthContext';
 
 import { toast } from 'sonner';
 
+import { loginSchema } from '../../../../validators/authSchema';
 
 const Login = ({ isOpen, onClose, openSignup }) => {
   // 2. Inside your component
@@ -22,33 +23,32 @@ const Login = ({ isOpen, onClose, openSignup }) => {
     e.preventDefault();
     setLoading(true);
     
+    // 1. FRONTEND: Catch format errors immediately
+    const validation = loginSchema.safeParse(formData);
+    if (!validation.success) {
+    // notification for issues 
+    return toast.error(validation.error.issues[0].message);
+    }
     
     try {
       const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
       const response = await fetch(`${API_URL}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(validation.data),
         credentials: 'include' // REQUIRED: Tells browser to accept the cookie
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        // setUser(data.user);
-        // setIsLoggedIn(true);
-        // console.log(data.token);
-        // localStorage.setItem("token", data.token); // Store the "Passport"
-        // alert("Login Successful!");
+        // 1. Update Global Auth State
         login(data.user);
+        // 2. Feedback
         toast.success("Login Successful! Welcome back.");
-        
+        // 3. Close Modal
         onClose();
-        // It sets the user in AuthContext, which makes the Navbar re-render instantly.
-        // return toast("Wow so easy!");
-        // window.location.reload(); // Optional: Refresh to update UI (like Navbar)
       } else {
-        // alert(data.message || "Invalid Credentials");
         toast.error(data.message || "Invalid email or password. Please try again");
       }
     } catch (error) {
