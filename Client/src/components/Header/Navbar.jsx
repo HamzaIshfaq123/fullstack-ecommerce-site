@@ -1,5 +1,6 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
 // images
 import logo from '/images/logo.png'
 // import product1 from '../../assets/images/product01.png'
@@ -16,10 +17,33 @@ import { useAuth } from '../../context/AuthContext';
 
 const Navbar = ({  }) => {
     // const [authModalType, setAuthModalType] = useState(null); // 'login', 'signup', or null
-    const { user, logout, openLogin, openSignup, authModalType, toggleCart } = useAuth();
+    const { user, logout, openLogin, openSignup, authModalType, toggleCart, cartCount } = useAuth();
     const [showDropdown, setShowDropdown] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isPumping, setIsPumping] = useState(false);
+
+    // This use-effect animates the cart icon
+    useEffect(() => {
+  if (cartCount === 0) return;
+
+  // First, stop any current animation
+  setIsPumping(false);
+  
+  // Use a tiny delay to re-trigger the DOM element
+  const timeout = setTimeout(() => {
+    setIsPumping(true);
+  }, 10);
+
+  const timer = setTimeout(() => {
+    setIsPumping(false);
+  }, 500); // Matches the new 0.5s CSS duration
+
+  return () => {
+    clearTimeout(timeout);
+    clearTimeout(timer);
+  };
+}, [cartCount]);
 
      const navLinks = [
     { name: 'Home', active: true },
@@ -108,7 +132,7 @@ const Navbar = ({  }) => {
       </div>
 
       {/* Logic to render based on the string state */}
-      {authModalType === 'login' && (
+      {/* {authModalType === 'login' && (
         <Login 
           isOpen={true} 
           onClose={() => setAuthModalType(null)} 
@@ -122,7 +146,7 @@ const Navbar = ({  }) => {
           onClose={() => setAuthModalType(null)} 
           openLogin={() => setAuthModalType('login')} 
         />
-      )}
+      )} */}
 
       {/* 2. MAIN HEADER - Flex Wrap & Mobile Optimization */}
       <div className="bg-[#1E1F29] py-4 md:py-6">
@@ -144,7 +168,9 @@ const Navbar = ({  }) => {
                 <div className="absolute -top-2 -right-1 bg-[#D10024] text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center">2</div>
               </div>
 
-              <div className="relative group flex flex-col items-center cursor-pointer" onClick={(e) => {
+              <div className={`relative group flex flex-col items-center cursor-pointer transition-all ${
+    isPumping ? 'animate-pop' : 'hover:scale-110'
+  }`} onClick={(e) => {
          // Debugging: Check your console (F12)
         if (!user) {
   openLogin(); // Triggers the modal in Layout.jsx
@@ -155,7 +181,7 @@ const Navbar = ({  }) => {
       }}>
                 <Cart3 size={18} className="md:size-/[20px]"/>
                 <span className="hidden sm:block text-[10px] uppercase mt-1">Cart</span>
-                <div className="absolute -top-2 -right-1 bg-[#D10024] text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center">3</div>
+                <div className={`absolute -top-2 -right-1 bg-[#D10024] text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center ${isPumping ? 'animate-pop' : ''}`}>{cartCount}</div>
               </div>
 
               {/* Mobile Menu Toggle Button */}

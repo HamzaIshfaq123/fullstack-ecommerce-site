@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
+
 import { createPortal } from 'react-dom';
 
-// 1. Import the hook at the top
 import { useAuth } from '../../../context/AuthContext';
 
 import { toast } from 'sonner';

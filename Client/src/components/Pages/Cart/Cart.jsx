@@ -1,8 +1,18 @@
 import React from 'react'
+
 import { createPortal } from 'react-dom';
+
 import { Link } from 'react-router-dom';
 
+import { useAuth } from '../../../context/AuthContext';
+
 const Cart = ({ isCartOpen, setIsCartOpen }) => {
+  
+const { cart, removeFromCart, updateQuantity } = useAuth();
+
+// Calculate Subtotal
+const subtotal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+  
   return createPortal( 
     
       <>
@@ -14,7 +24,7 @@ const Cart = ({ isCartOpen, setIsCartOpen }) => {
 
       {/* 2. CART SIDEBAR */}
       <aside className={`
-        fixed top-0 right-0 h-full w-full lg:w-96 sm:w-/[400px] bg-white z-/[9998] shadow-2xl
+        fixed top-0 right-0 h-full w-full lg:w-100 sm:w-/[400px] bg-white z-/[9998] shadow-2xl
         transform transition-transform duration-300 z-/[9998] ease-in-out flex flex-col
         ${isCartOpen ? 'translate-x-0' : 'translate-x-full'}
       `}>
@@ -32,29 +42,59 @@ const Cart = ({ isCartOpen, setIsCartOpen }) => {
             <span>Total</span>
           </div>
 
-          {/* ITEM 1 */}
-          <div className="flex justify-between items-center group">
-             <div className="flex items-center gap-4">
-                <button className="text-gray-300 hover:text-red-600">×</button>
-                <div className="text-sm font-medium">
-                  <p className="text-gray-800">1x Product Name Goes Here</p>
-                  <p className="text-xs text-gray-400">$980.00 each</p>
-                </div>
-             </div>
-             <span className="font-bold text-sm">$980.00</span>
-          </div>
+          {cart.length === 0 ? (
+          <p className="text-center text-gray-500 py-10">Your cart is empty.</p>
+        ) : (
+          cart.map((item) => (
+  <div key={item._id} className="group border-b border-gray-100 py-4 last:border-0">
+    {/* Main Row: Three Columns */}
+    <div className="flex items-center justify-between gap-4">
+      
+      {/* 1. Left: Remove Button + Product Name */}
+      <div className="flex items-center gap-2 flex-1 min-w-0">
+        <button 
+          onClick={() => removeFromCart(item._id)}
+          className="text-gray-300 hover:text-red-600 transition-colors text-lg shrink-0"
+        >
+          ×
+        </button>
+        <div className="min-w-0">
+           <p className="text-sm font-bold text-gray-800 truncate">{item.name}</p>
+           <p className="text-[10px] text-gray-400">Rs.{item.price.toLocaleString()} each</p>
+        </div>
+      </div>
 
-          {/* ITEM 2 */}
-          <div className="flex justify-between items-center">
-             <div className="flex items-center gap-4">
-                <button className="text-gray-300 hover:text-red-600">×</button>
-                <div className="text-sm font-medium">
-                  <p className="text-gray-800">2x Product Name Goes Here</p>
-                  <p className="text-xs text-gray-400">$980.00 each</p>
-                </div>
-             </div>
-             <span className="font-bold text-sm">$1960.00</span>
-          </div>
+      {/* 2. Center: Plus/Minus Controls */}
+      <div className="flex items-center bg-gray-100 rounded-md px-2 py-1 gap-2 shrink-0">
+        <button 
+          onClick={() => updateQuantity(item._id, -1)}
+          className="text-gray-500 hover:text-[#D10024] font-bold w-4 transition-colors"
+        >
+          −
+        </button>
+        <span className="text-xs font-bold w-4 text-center select-none">
+          {item.quantity}
+        </span>
+        <button 
+          onClick={() => updateQuantity(item._id, 1)}
+          className="text-gray-500 hover:text-[#D10024] font-bold w-4 transition-colors"
+        >
+          +
+        </button>
+      </div>
+
+      {/* 3. Right: Subtotal for this item */}
+      <div className="shrink-0 text-right min-w-[80px]">
+        <span className="font-bold text-sm text-gray-900">
+          Rs.{(item.price * item.quantity).toLocaleString()}
+        </span>
+      </div>
+    </div>
+  </div>
+))
+          
+        )}
+    
         </div>
 
         {/* SUMMARY & CHECKOUT (Fixed at Bottom) */}
@@ -65,7 +105,7 @@ const Cart = ({ isCartOpen, setIsCartOpen }) => {
           </div>
           <div className="flex justify-between text-xl font-bold py-2 border-t border-gray-200">
             <span className="uppercase">Total</span>
-            <span className="text-red-600">$2940.00</span>
+            <span className="text-red-600">${subtotal.toFixed(2)}</span>
           </div>
 
             

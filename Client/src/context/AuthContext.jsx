@@ -21,6 +21,10 @@ export const AuthProvider = ({ children }) => {
   const openLogin = () => setAuthModalType('login');
   const openSignup = () => setAuthModalType('signup');
   const closeAuth = () => setAuthModalType(null);
+  const [cart, setCart] = useState([]);
+
+  // Calculate total items (e.g., 2 shirts + 1 hat = 3 items)
+  const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
   
   // Auto-verify user on page refresh
   useEffect(() => {
@@ -61,6 +65,40 @@ export const AuthProvider = ({ children }) => {
   initAuth();
 }, []);
 
+  // Inside AuthContext.js
+const addToCart = (newItem) => {
+  setCart((prev) => {
+    const existingItem = prev.find(item => item._id === newItem._id);
+
+    if (existingItem) {
+      return prev.map(item =>
+        item._id === newItem._id 
+          ? { ...item, quantity: item.quantity + newItem.quantity } 
+          : item
+      );
+    }
+    return [...prev, newItem];
+  });
+};
+
+// Increase quantity of an item
+const updateQuantity = (productId, amount) => {
+  setCart((prev) =>
+    prev.map((item) => {
+      if (item._id === productId) {
+        const newQty = item.quantity + amount;
+        // Ensure quantity doesn't go below 1
+        return { ...item, quantity: newQty < 1 ? 1 : newQty };
+      }
+      return item;
+    })
+  );
+};
+
+const removeFromCart = (productId) => {
+  setCart(prev => prev.filter(item => item._id !== productId));
+};
+
   const login = (userData) => {
     // localStorage.setItem("token", token);
     setUser(userData);
@@ -86,7 +124,7 @@ export const AuthProvider = ({ children }) => {
 };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading, openLogin, openSignup, closeAuth, authModalType, isCartOpen, toggleCart, openCart, closeCart }}>
+    <AuthContext.Provider value={{ user, login, logout, loading, openLogin, openSignup, closeAuth, authModalType, isCartOpen, toggleCart, openCart, closeCart, cart, removeFromCart, addToCart, cartCount, updateQuantity }}>
       {/* 3. We show children even if loading to prevent 'white screen' on slow connections */}
       {children}
     </AuthContext.Provider>

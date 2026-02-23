@@ -1,22 +1,37 @@
 import React, { useState, useEffect } from 'react';
+
 import { useParams } from 'react-router-dom';
+
 import { Heart, Telephone, Whatsapp } from 'react-bootstrap-icons';
+
 import WhatsAppWidget from '../Widget/WhatsappWidget';
 
+import { toast } from 'sonner';
+
+import { useAuth } from '../../../context/AuthContext';
+
+
 const ProductDetails = () => {
+  
+  const { addToCart } = useAuth();
 
-    const handleAddToCart = async () => {
-//   // const token = localStorage.getItem("token");
+  const handleAddToCart = () => {
+  // Extract number from string (e.g., "2 PCS (Save Rs. 300)" -> 2)
+  const qtyNumber = parseInt(selectedQty.split(' ')[0]);
 
-//   // 1. Guest Check
-//   if (!token) {
-//     alert("Please sign in to add items to your cart.");
-//     // You can navigate to login or open a login modal here
-//     return;
-//   }else{
-    alert("added to cart")
-//   }
-}
+  // Construct the object to send to the cart
+  const productToCart = {
+    _id: product._id,
+    name: product.name,
+    price: product.price,
+    image: product.images?.[0], // Just the first image for the thumbnail
+    quantity: qtyNumber
+  };
+
+  addToCart(productToCart);
+  toast.success("Product has been added to cart");
+  // setIsCartOpen(true); // 🚀 Open the side cart automatically!
+};
 
   const { id } = useParams();
   const [product, setProduct] = useState(null);

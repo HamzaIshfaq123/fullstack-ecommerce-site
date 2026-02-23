@@ -242,7 +242,7 @@ app.post("/logout", (req, res) => {
 });
 
 // GET /api/products/:id
-app.get('/api/products/:id', authenticateToken , async (req, res) => {
+app.get('/api/products/:id' , async (req, res) => {
     try {
         await dbConnect(); // Force wait for DB connection
         const { id } = req.params;
