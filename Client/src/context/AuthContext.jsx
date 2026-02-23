@@ -8,6 +8,19 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  // 🚀 ADD THIS: Global Modal State
+  // Possible values: null, 'login', 'signup'
+  const [authModalType, setAuthModalType] = useState(null);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const toggleCart = () => setIsCartOpen((prev) => !prev);
+  const openCart = () => setIsCartOpen(true);
+  const closeCart = () => setIsCartOpen(false);
+
+  const openLogin = () => setAuthModalType('login');
+  const openSignup = () => setAuthModalType('signup');
+  const closeAuth = () => setAuthModalType(null);
   
   // Auto-verify user on page refresh
   useEffect(() => {
@@ -73,7 +86,7 @@ export const AuthProvider = ({ children }) => {
 };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, logout, loading, openLogin, openSignup, closeAuth, authModalType, isCartOpen, toggleCart, openCart, closeCart }}>
       {/* 3. We show children even if loading to prevent 'white screen' on slow connections */}
       {children}
     </AuthContext.Provider>

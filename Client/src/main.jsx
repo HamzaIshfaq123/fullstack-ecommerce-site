@@ -21,7 +21,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import ProductDetails from './components/Pages/Product/ProductDetails'
 import { Toaster, toast } from 'sonner';
-import 'react-toastify/dist/ReactToastify.css';
+// import 'react-toastify/dist/ReactToastify.css';
 // import './components/styles/font-awesome.min.css'
 
 const router = createBrowserRouter([

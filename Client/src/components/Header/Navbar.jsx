@@ -14,9 +14,9 @@ import Signup from '../Pages/Auth/Signup';
 import { useAuth } from '../../context/AuthContext';
 
 
-const Navbar = ({ onCartToggle }) => {
-    const [authModalType, setAuthModalType] = useState(null); // 'login', 'signup', or null
-    const { user, logout } = useAuth();
+const Navbar = ({  }) => {
+    // const [authModalType, setAuthModalType] = useState(null); // 'login', 'signup', or null
+    const { user, logout, openLogin, openSignup, authModalType, toggleCart } = useAuth();
     const [showDropdown, setShowDropdown] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -57,13 +57,13 @@ const Navbar = ({ onCartToggle }) => {
           /* --- GUEST VIEW: Show Login and Signup --- */
           <>
             <li 
-              onClick={() => setAuthModalType('login')} 
+              onClick={() => openLogin()} 
               className="hover:text-[#D10024] cursor-pointer"
             >
               Login
             </li>
             <li 
-              onClick={() => setAuthModalType('signup')} 
+              onClick={() => openSignup()} 
               className="hover:text-[#D10024] cursor-pointer"
             >
               Signup
@@ -146,7 +146,12 @@ const Navbar = ({ onCartToggle }) => {
 
               <div className="relative group flex flex-col items-center cursor-pointer" onClick={(e) => {
          // Debugging: Check your console (F12)
-        onCartToggle(); 
+        if (!user) {
+  openLogin(); // Triggers the modal in Layout.jsx
+} else {
+  toggleCart(); // Opens your local Cart sidebar
+}
+          // setAuthModalType('login')
       }}>
                 <Cart3 size={18} className="md:size-/[20px]"/>
                 <span className="hidden sm:block text-[10px] uppercase mt-1">Cart</span>
