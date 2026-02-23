@@ -67,9 +67,16 @@ const Navbar = ({  }) => {
               <Telephone className="text-[#D10024]" size={10} /> +021-95-51-84
             </li>
             <li className="flex items-center gap-1 hover:text-[#D10024] cursor-pointer">
-              <Envelope className="text-[#D10024]" size={10} /> email@email.com
+              <a 
+                href="mailto:hamzaishfaq472@gmail.com?subject=Inquiry from Portfolio&body=Hi Hamza, I saw your portfolio and wanted to reach out!" 
+                
+                className="flex items-center gap-1"
+              >
+                <Envelope className="text-[#D10024]" size={10} /> 
+                <span>hamzaishfaq472@gmail.com</span>
+              </a>
             </li>
-            <li className="flex items-center gap-2 hover:text-[#D10024] cursor-pointer">
+            <li className="flex items-center gap-1 hover:text-[#D10024] cursor-pointer">
               <GeoAlt className="text-[#D10024]" /> 1734 Stonecoal Road
             </li>
             {/* <li className="hidden md:flex items-center gap-1 hover:text-[#D10024] cursor-pointer">
