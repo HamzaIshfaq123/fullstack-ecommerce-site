@@ -1,13 +1,6 @@
 import { useState } from 'react'
 import Navbar from './components/Header/Navbar'
-
-// style files
-// import './components/styles/bootstrap.min.css';
-// import './components/styles/slick.css';
-// import './components/styles/slick-theme.css';
-// import './components/styles/nouislider.min.css';
-// import './components/styles/font-awesome.min.css';
-// import './components/styles/style.css'; 
+import './App.css'; 
 
 import "tailwindcss";
 

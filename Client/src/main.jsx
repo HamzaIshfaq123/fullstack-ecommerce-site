@@ -1,18 +1,16 @@
 import { createContext, StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter , RouterProvider} from 'react-router-dom'
+import './App.css';
 import './index.css'
 import App from './App.jsx'
 import Store from './components/Pages/Store/Store.jsx'
 import Navbar from './components/Header/Navbar.jsx'
 import Footer from './components/Footer/Footer.jsx'
-// import Homepage from './components/Pages/Homepage/Homepage.jsx'
 import Checkout from './components/Pages/Checkout/Checkout.jsx'
 import Layout from './components/Layout/Layout.jsx'
 import Account from './components/Pages/Account/Account.jsx'
-// import { NavUser } from './components/nav-user'
-// import { SidebarProvider } from './components/ui/sidebar'
-// import Dashboard from './components/Admin/Dashboard/Dashboard.jsx'
+import Dashboard from './components/Admin/Dashboard/Dashboard.jsx'
 import { AuthProvider } from './context/AuthContext'
 import NewArrivalsSection from './components/Pages/Homepage/NewArrivalsSection'
 import BestSellersSection from './components/Pages/Homepage/BestSellersSection'
@@ -21,8 +19,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import ProductDetails from './components/Pages/Product/ProductDetails'
 import { Toaster, toast } from 'sonner';
-// import 'react-toastify/dist/ReactToastify.css';
-// import './components/styles/font-awesome.min.css'
 
 const router = createBrowserRouter([
   {
@@ -53,7 +49,7 @@ const router = createBrowserRouter([
   },
     {
       path: '/dashboard',
-      // element: <Dashboard/>
+      element: <Dashboard/>
     }
 ]);
 
