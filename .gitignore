@@ -1,2 +1,19 @@
 .vercel
 .env*.local
+
+# Ignore node_modules everywhere
+node_modules/
+
+# Ignore env files in any folder
+.env
+.env.local
+.env.*
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Vercel/Build folders
+.vercel
+/Client/build
+/Client/dist
