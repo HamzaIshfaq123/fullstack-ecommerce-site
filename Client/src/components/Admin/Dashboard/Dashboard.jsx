@@ -13,10 +13,10 @@ import data from "../../data/data.json"
 export default function Dashboard() {
   return (
     /* 1. Add this wrapper with the 'dark' class */
-    <div className="dark">
+    <div className="dark-theme">
       
       
-      <div className="bg-background text-foreground min-h-screen">
+      <div className="dark-theme bg-background text-foreground min-h-screen">
     <SidebarProvider
       style={
         {

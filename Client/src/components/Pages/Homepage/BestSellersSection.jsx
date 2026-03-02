@@ -8,11 +8,11 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 
 const BestSellersSection = () => {
+
     const [products, setProducts] = useState([]);
-    // const [loading, setLoading] = useState(true);
+    
     const { user, loading } = useAuth(); // Get 'loading' from context
     
-
     useEffect(() => {
         const getTopSelling = async () => {
             // 1. ONLY wait for loading. We want to fetch even if !token (for guests)
