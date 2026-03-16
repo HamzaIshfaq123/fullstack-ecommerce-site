@@ -1,7 +1,36 @@
 import React from 'react'
+
 import { Link } from 'react-router-dom'
 
+import { useAuth } from '../../../context/AuthContext';
+
+import { useForm } from "react-hook-form";
+
 const Checkout = () => {
+
+  const { cart } = useAuth();
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { isValid },
+  } = useForm({
+    mode: "onChange", // This checks validation as the user types
+  });
+
+  // Calculate Subtotal
+  const subtotal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+
+  // This watches the payment radio buttons
+  const selectedPayment = watch("paymentMethod");
+
+  const onSubmit = (data) => {
+    console.log("Form Data:", data);
+    // This will include { first-name, last-name, ..., paymentMethod: "bank" }
+    alert("Order Placed Successfully!");
+  };
+
   return (
     <div>
       {/* <!-- BREADCRUMB --> */}
@@ -19,52 +48,78 @@ const Checkout = () => {
 {/* <!-- MAIN SECTION --> */}
 <div className="py-12 bg-white">
   <div className="container mx-auto px-4">
+    <form onSubmit={handleSubmit(onSubmit)}>
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
       
       {/* <!-- LEFT COLUMN: BILLING & SHIPPING --> */}
       <div className="lg:col-span-7 space-y-10">
         
         {/* <!-- Billing Details --> */}
-        <section className="billing-details">
-          <div className="border-b-2 border-gray-100 pb-4 mb-6">
-            <h3 className="text-xl font-bold uppercase">Billing address</h3>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input className="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none" type="text" name="first-name" placeholder="First Name"/>
-            <input className="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none" type="text" name="last-name" placeholder="Last Name"/>
-            <input className="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none md:col-span-2" type="email" name="email" placeholder="Email"/>
-            <input className="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none md:col-span-2" type="text" name="address" placeholder="Address"/>
-            <input className="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none" type="text" name="city" placeholder="City"/>
-            <input className="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none" type="text" name="country" placeholder="Country"/>
-            <input className="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none" type="text" name="zip-code" placeholder="ZIP Code"/>
-            <input className="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none" type="tel" name="tel" placeholder="Telephone"/>
-          </div>
-
-          <div className="mt-6">
-            <label className="inline-flex items-center cursor-pointer group">
-              <input type="checkbox" id="create-account" className="peer hidden"/>
-              <span className="w-5 h-5 border-2 border-gray-300 flex items-center justify-center peer-checked:bg-red-600 peer-checked:border-red-600 transition">
-                <svg className="w-3 h-3 text-white fill-current" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>
-              </span>
-              <span className="ml-2 text-sm font-bold uppercase group-hover:text-red-600 transition">Create Account?</span>
-            </label>
-            <div className="hidden peer-checked:block mt-4 p-4 bg-gray-50 border border-gray-200 animate-fadeIn">
-              <p className="text-sm text-gray-600 mb-4">Please provide a password to secure your new account.</p>
-              <input className="w-full px-4 py-3 border border-gray-300 rounded bg-white" type="password" name="password" placeholder="Enter Your Password"/>
-            </div>
-          </div>
-        </section>
+    <section className="billing-details">
+    <div className="border-b-2 border-gray-100 pb-4 mb-6">
+    <h3 className="text-xl font-bold uppercase">Billing address</h3>
+    </div>
+  
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <input 
+      {...register("firstName", { required: true })}
+      className="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none" 
+      type="text" 
+      placeholder="First Name"
+    />
+    <input 
+      {...register("lastName", { required: true })}
+      className="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none" 
+      type="text" 
+      placeholder="Last Name"
+    />
+    <input 
+      {...register("email", { 
+        required: true, 
+        pattern: {
+          value: /^\S+@\S+$/i,
+          message: "Invalid email"
+        }
+      })}
+      className="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none md:col-span-2" 
+      type="email" 
+      placeholder="Email"
+    />
+    <input 
+      {...register("address", { required: true })}
+      className="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none md:col-span-2" 
+      type="text" 
+      placeholder="Address"
+    />
+    <input 
+      {...register("city", { required: true })}
+      className="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none" 
+      type="text" 
+      placeholder="City"
+    />
+    <input 
+      {...register("country", { required: true })}
+      className="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none" 
+      type="text" 
+      placeholder="Country"
+    />
+    <input 
+      {...register("zipCode", { required: true })}
+      className="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none" 
+      type="text" 
+      placeholder="ZIP Code"
+    />
+    <input 
+      {...register("tel", { required: true })}
+      className="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none" 
+      type="tel" 
+      placeholder="Telephone"
+    />
+    </div>
+  </section>  
 
         {/* <!-- Shipping Details --> */}
         <section className="shipping-details">
-          <label className="inline-flex items-center cursor-pointer group mb-6">
-            <input type="checkbox" id="shipping-address" className="peer hidden"/>
-            <span className="w-5 h-5 border-2 border-gray-300 flex items-center justify-center peer-checked:bg-red-600 peer-checked:border-red-600 transition">
-              <svg className="w-3 h-3 text-white fill-current" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>
-            </span>
-            <span className="ml-2 text-xl font-bold uppercase group-hover:text-red-600 transition">Ship to a different address?</span>
-          </label>
           
           <div className="hidden peer-checked:grid grid-cols-1 md:grid-cols-2 gap-4 animate-fadeIn">
             <input className="w-full px-4 py-3 border border-gray-300 rounded" type="text" placeholder="First Name"/>
@@ -89,15 +144,25 @@ const Checkout = () => {
               <span>Product</span>
               <span>Total</span>
             </div>
-            {/* <!-- Dynamic Items --> */}
-            <div className="flex justify-between text-gray-600 text-sm">
-              <span>1x Product Name Goes Here</span>
-              <span className="font-medium">$980.00</span>
-            </div>
-            <div className="flex justify-between text-gray-600 text-sm border-b pb-4">
-              <span>2x Product Name Goes Here</span>
-              <span className="font-medium">$1960.00</span>
-            </div>
+
+            {cart.length === 0 ? (
+              <p className="text-center text-gray-500 py-10">Your cart is empty.</p>
+            ) : (
+              cart.map((item) => (
+                <div key={item._id} className="flex justify-between items-start text-gray-600 text-sm py-1">
+                  {/* Column 1: Quantity and Name */}
+                  <div className="flex-1 pr-4">
+                    <span className="font-bold text-red-600 mr-2">{item.quantity}x</span>
+                    <span className="truncate">{item.name}</span>
+                  </div>
+
+                  {/* Column 2: Total for this specific item */}
+                  <span className="font-medium whitespace-nowrap">
+                    Rs.{(item.price * item.quantity).toLocaleString()}
+                  </span>
+                </div>
+              ))
+            )}
             
             <div className="flex justify-between text-sm py-2">
               <span>Shipping</span>
@@ -105,35 +170,64 @@ const Checkout = () => {
             </div>
             <div className="flex justify-between text-xl font-bold pt-4 border-t-2 border-gray-100">
               <span>TOTAL</span>
-              <span className="text-red-600">$2940.00</span>
+              <span className="text-red-600">Rs. {subtotal.toFixed(2)}</span>
             </div>
           </div>
 
-          {/* <!-- Payment Methods --> */}
           <div className="space-y-4 mb-6">
-            <label className="block cursor-pointer">
-              <input type="radio" name="payment" className="peer hidden" />
-              <div className="flex items-center text-sm font-bold uppercase peer-checked:text-red-600">
-                <span className="w-4 h-4 rounded-full border-2 border-gray-300 mr-2 flex items-center justify-center peer-checked:border-red-600 after:content-[''] after:w-2 after:h-2 after:bg-red-600 after:rounded-full after:hidden peer-checked:after:block"></span>
-                Direct Bank Transfer
-              </div>
-              <p className="hidden peer-checked:block text-xs text-gray-500 mt-2 ml-6">Transfer funds directly to our bank account.</p>
-            </label>
-            {/* <!-- Add more payment options here following the same structure --> */}
-          </div>
+          <label className="flex items-start cursor-pointer gap-3 p-2 hover:bg-gray-50 rounded">
+            <input 
+              type="radio" 
+              name="payment" 
+              value="bank"
+              className="mt-1 w-4 h-4 accent-red-600 cursor-pointer" 
+              defaultChecked 
+            />
+            <div>
+              <span className="text-sm font-bold uppercase block">Direct Bank Transfer</span>
+              <p className="text-xs text-gray-500 mt-1">
+                Transfer funds directly to our bank account.
+              </p>
+            </div>
+          </label>
+
+          <label className="flex items-start cursor-pointer gap-3 p-2 hover:bg-gray-50 rounded">
+            <input 
+              type="radio" 
+              name="payment" 
+              value="cod"
+              className="mt-1 w-4 h-4 accent-red-600 cursor-pointer" 
+            />
+            <div>
+              <span className="text-sm font-bold uppercase block">Cash on Delivery</span>
+              <p className="text-xs text-gray-500 mt-1">
+                Pay with cash upon delivery.
+              </p>
+            </div>
+          </label>
+        </div>
 
           <label className="flex items-start mb-6 cursor-pointer">
-            <input type="checkbox" id="terms" className="mt-1"/>
+            <input {...register("terms", { required: true })} type="checkbox" id="terms" className="mt-1"/>
             <span className="ml-2 text-xs text-gray-600 italic">I've read and accept the <a href="#" className="text-red-600 underline">terms & conditions</a></span>
           </label>
 
-          <button className="w-full bg-red-600 text-white font-bold py-4 rounded uppercase tracking-widest hover:bg-black transition-colors duration-300">
-            Place Order
-          </button>
+          <button 
+              type="submit"
+              disabled={!isValid}
+              className={`w-full cursor-pointer font-bold py-4 rounded uppercase tracking-widest transition-colors duration-300 ${
+                isValid 
+                ? "bg-red-600 text-white hover:bg-black" 
+                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+              }`}
+            >
+              Place Order
+            </button>
         </div>
       </div>
 
     </div>
+    </form>
   </div>
 </div>
     </div>
