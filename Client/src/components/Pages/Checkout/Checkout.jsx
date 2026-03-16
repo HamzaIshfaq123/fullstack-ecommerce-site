@@ -13,7 +13,7 @@ import { checkoutSchema } from '../../../../validators/checkoutSchema';
 const Checkout = () => {
 
   const onSubmit = async (formData) => {
-    console.log("DEBUG: Frontend Payload before fetch:", formData);
+    
   try {
     // 1. Zod Validation (React Hook Form handles the structure, 
     // but we validate against our schema)
