@@ -10,6 +10,8 @@ const User = require("./src/models/user.model");
 
 const Product = require("./src/models/product.model")
 
+const Order = require("./src/models/order.model")
+
 const { loginLimiter, registerLimiter } = require('./src/middlewares/rateLimiters');
 
 const { body, validationResult } = require('express-validator');
@@ -263,6 +265,65 @@ app.get('/api/products/:id' , async (req, res) => {
         console.error("Error fetching product details:", error);
         res.status(500).json({ message: "Internal Server Error" });
     }
+});
+
+// route for handling order placement
+app.post("/api/orders", authenticateToken , async (req, res) => {
+  console.log("DEBUG: Backend received body:", req.body);
+  try {
+    // 1. Get the User ID from the middleware
+    const userId = req.user.id;
+    // Ensure the DB is connected
+    await dbConnect(); 
+    
+    const { orderItems, shippingAddress, paymentMethod, totalPrice } = req.body;
+
+    if (!orderItems || orderItems.length === 0) {
+      return res.status(400).json({ message: "Cart is empty" });
+    }
+
+    // 1. SECURE CALCULATION: Fetch prices from DB instead of trusting req.body
+    let calculatedTotal = 0;
+    const validatedItems = [];
+
+    for (const item of orderItems) {
+      const product = await Product.findById(item.product); // Assuming item.product is the ID
+      if (!product) {
+        return res.status(404).json({ message: `Product ${item.name} not found` });
+      }
+      
+      // Calculate price based on DB data
+      calculatedTotal += product.price * item.quantity;
+      
+      // Push the snapshot to our array
+      validatedItems.push({
+        name: product.name,
+        quantity: item.quantity,
+        price: product.price,
+        product: product._id
+      });
+    }
+
+    // 2. Create the Order
+    const newOrder = await Order.create({
+      user: userId,
+      orderItems: validatedItems,
+      shippingAddress,
+      paymentMethod,
+      totalPrice: calculatedTotal,
+      status: "Pending"
+    });
+
+    res.status(201).json({ 
+      success: true, 
+      orderId: newOrder._id,
+      totalPrice: calculatedTotal 
+    });
+
+  } catch (error) {
+    console.error("Order Creation Error:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 });
 
 // This allows local testing but won't crash on Vercel

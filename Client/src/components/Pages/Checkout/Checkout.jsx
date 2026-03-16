@@ -6,7 +6,69 @@ import { useAuth } from '../../../context/AuthContext';
 
 import { useForm } from "react-hook-form";
 
+import { toast } from 'sonner';
+
+import { checkoutSchema } from '../../../../validators/checkoutSchema';
+
 const Checkout = () => {
+
+  const onSubmit = async (formData) => {
+    console.log("DEBUG: Frontend Payload before fetch:", formData);
+  try {
+    // 1. Zod Validation (React Hook Form handles the structure, 
+    // but we validate against our schema)
+    const validation = checkoutSchema.safeParse(formData);
+    if (!validation.success) {
+      return toast.error(validation.error.issues[0].message);
+    }
+
+    const subtotal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+
+    // 2. Prepare Payload
+    const orderPayload = {
+    shippingAddress: {
+      address: formData.address,
+      city: formData.city,
+      country: formData.country,
+      zipCode: formData.zipCode,
+      telephone: formData.tel,
+    },
+    paymentMethod: formData.paymentMethod,
+    // CRITICAL: Ensure 'product' is the ID, not the whole object
+    orderItems: cart.map(item => ({
+      product: item._id, // This MUST match the product ID in your DB
+      quantity: item.quantity,
+      price: item.price,
+      name: item.name
+    })),
+    totalPrice: subtotal,
+  };
+
+    // 3. API Call
+    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+    const response = await fetch(`${API_URL}/api/orders`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(orderPayload),
+      credentials: "include", // Essential for JWT/Cookie auth
+    });
+
+    const data = await response.json();
+
+    // 4. Handle Response
+    if (response.ok) {
+      toast.success("Order placed successfully!");
+      // Optional: Clear cart logic here
+      // clearCart(); 
+      // navigate("/order-success");
+    } else {
+      toast.error(data.message || "Failed to place order.");
+    }
+  } catch (error) {
+    console.error("Order submission error:", error);
+    toast.error("Network error. Please try again later.");
+  }
+};
 
   const { cart } = useAuth();
 
@@ -24,12 +86,6 @@ const Checkout = () => {
 
   // This watches the payment radio buttons
   const selectedPayment = watch("paymentMethod");
-
-  const onSubmit = (data) => {
-    console.log("Form Data:", data);
-    // This will include { first-name, last-name, ..., paymentMethod: "bank" }
-    alert("Order Placed Successfully!");
-  };
 
   return (
     <div>
@@ -177,6 +233,7 @@ const Checkout = () => {
           <div className="space-y-4 mb-6">
           <label className="flex items-start cursor-pointer gap-3 p-2 hover:bg-gray-50 rounded">
             <input 
+            {...register("paymentMethod", { required: true })}
               type="radio" 
               name="payment" 
               value="bank"
@@ -193,6 +250,7 @@ const Checkout = () => {
 
           <label className="flex items-start cursor-pointer gap-3 p-2 hover:bg-gray-50 rounded">
             <input 
+            {...register("paymentMethod", { required: true })}
               type="radio" 
               name="payment" 
               value="cod"
